@@ -6,7 +6,6 @@ var Robot = require('./robot_pigpio.js');
 var debug = false;
 var immediateStart = false;
 
-// if (argv.debug) debug = true;
 if (argv.debug) debug = true;
 if (argv.start) immediateStart = true;
 
