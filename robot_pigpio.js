@@ -86,7 +86,7 @@ var Robot = function() {
 
   self.enableAllMotors = function() {
 
-    console.log("\nEnabling all motors".grey.italic);
+    console.log("\nEnabling all motors".italic.grey);
 
     for (var i = 0; i < self.motors.length; i++) {
       self.motors[i]['isEnabled'] = true;
@@ -107,7 +107,7 @@ var Robot = function() {
     self.enableStop = false;
 
     for (var i = 0; i < self.motors.length; i++) {
-      loopSequence(self.motors[i], self.sequences[i], ("Motor#" + i).toString());
+      loopSequence(self.motors[i], self.sequences[i], i);
     }
 
     return "Ok!";
@@ -171,7 +171,9 @@ var Robot = function() {
         if (newPosition > currentPosition) offsetPosition = currentPosition + 1;
         if (newPosition < currentPosition) offsetPosition = currentPosition - 1;
 
-        if (motor.isEnabled) motor.servoWrite(offsetPosition);
+        if (motor.isEnabled) {
+          motor.servoWrite(offsetPosition);
+        }
 
         currentPosition = offsetPosition;
 
