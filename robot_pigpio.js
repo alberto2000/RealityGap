@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+require('./functions.js');
+
 var colors = require('colors');
 require('pigpio').configureClock(1, 0);
 var Gpio = require('pigpio').Gpio;
