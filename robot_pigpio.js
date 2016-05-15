@@ -10,12 +10,13 @@ var Robot = function() {
 
   var self = this;
   var startPosition = 1500;
+  var range = [790, 2210];
 
   self.debug = false;
   self.enableStop = true;
   self.running = false;
   self.motors = [];
-  self.sequences = [];
+  self.moveSequences = [];
 
   createMotors([17, 22, 23, 24, 27]);
   createSequences();
@@ -40,6 +41,8 @@ var Robot = function() {
         return "Ok!";
       }
 
+      newMotor['lastPosition'] = undefined;
+
       self.motors.push(newMotor);
 
     }
@@ -48,41 +51,79 @@ var Robot = function() {
 
   function createSequences() {
 
-    self.sequences = [
+    self.sweepSequences = [
       [
-        [1800, 5],
+        [range[0], 3],
+        [range[1], 3]
+      ],
+      [
+        [range[0], 3],
+        [range[1], 3]
+      ],
+      [
+        [range[0], 3],
+        [range[1], 3]
+      ],
+      [
+        [range[0], 3],
+        [range[1], 3]
+      ],
+      [
+        [range[0], 3],
+        [range[1], 3]
+      ]
+    ];
+
+    self.moveSequences = [
+      [
+        [2210, 5],
         [1400, 10],
         [1700, 1],
-        [1100, 20]
+        [790, 10]
       ],
       [
+        [1100, 8],
+        [790, 6],
         [1100, 20],
-        [1300, 6],
-        [1100, 10],
-        [1900, 7],
-        [1400, 30]
+        [2210, 1],
+        [1400, 10]
       ],
       [
-        [1800, 18],
+        [1800, 12],
         [1400, 5],
         [1700, 4],
-        [1100, 30]
+        [790, 1]
       ],
       [
         [1800, 10],
         [1400, 8],
-        [1700, 2],
-        [1100, 20]
+        [2000, 3],
+        [790, 1]
       ],
       [
-        [1800, 2],
-        [1400, 9],
+        [1800, 5],
+        [790, 1],
         [1700, 13],
         [1100, 7],
-        [1700, 25],
+        [2000, 15],
         [1100, 4]
       ]
     ];
+
+  }
+
+  self.calibrate = function() {
+
+    if (self.running) self.stop();
+
+    console.log("\nAll motors moving to neutral position 1500".italic.grey);
+
+    for (var i = 0; i < self.motors.length; i++) {
+      self.motors[i].servoWrite(startPosition);
+      self.motors[i].lastPosition = startPosition;
+    }
+
+    return "Ok!";
 
   }
 
@@ -93,6 +134,28 @@ var Robot = function() {
     for (var i = 0; i < self.motors.length; i++) {
       self.motors[i]['isEnabled'] = true;
     }
+
+    return "Ok!";
+
+  }
+
+  self.sweep = function() {
+
+    if (self.running) {
+      console.log("\nRobot already running!".bgRed.white.bold);
+      return false;
+    }
+
+    console.log("\nMotors are now " + "sweeping!".blue.bold);
+
+    self.running = true;
+    self.enableStop = false;
+
+    for (var i = 0; i < self.motors.length; i++) {
+      loopSequence(self.motors[i], self.sweepSequences[i], i);
+    }
+
+    return "Ok!";
 
   }
 
@@ -109,7 +172,7 @@ var Robot = function() {
     self.enableStop = false;
 
     for (var i = 0; i < self.motors.length; i++) {
-      loopSequence(self.motors[i], self.sequences[i], i);
+      loopSequence(self.motors[i], self.moveSequences[i], i);
     }
 
     return "Ok!";
@@ -147,6 +210,7 @@ var Robot = function() {
       if (!motor.isEnabled) return;
 
       motor.servoWrite(startPosition);
+      motor.lastPosition = startPosition;
 
     }
 
@@ -175,6 +239,7 @@ var Robot = function() {
 
         if (motor.isEnabled) {
           motor.servoWrite(offsetPosition);
+          motor.lastPosition = offsetPosition;
         }
 
         currentPosition = offsetPosition;
