@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
-require('./functions.js');
-
 var colors = require('colors');
 require('pigpio').configureClock(1, 0);
 var Gpio = require('pigpio').Gpio;
+var easings = require('./easings.js');
 
 var Robot = function() {
 
@@ -152,7 +151,7 @@ var Robot = function() {
     self.enableStop = false;
 
     for (var i = 0; i < self.motors.length; i++) {
-      loopSequence(self.motors[i], self.sweepSequences[i], i);
+      loopSequence(self.motors[i], self.sweepSequences[i], "motor"+i);
     }
 
     return "Ok!";
@@ -172,7 +171,7 @@ var Robot = function() {
     self.enableStop = false;
 
     for (var i = 0; i < self.motors.length; i++) {
-      loopSequence(self.motors[i], self.moveSequences[i], i);
+      loopSequence(self.motors[i], self.moveSequences[i], "motor"+i);
     }
 
     return "Ok!";
@@ -218,11 +217,12 @@ var Robot = function() {
 
       if (index >= sequenceLength) index = 0;
 
+      var oldPosition = motor.lastPosition;
       var newPosition = sequence[index][0];
       var newSpeed = sequence[index][1];
 
       if (self.debug) {
-        console.log(motorId.blue.bold + ": moving to index " + index.toString().green + " at position " + newPosition.toString().yellow + " with speed " + newSpeed.toString().red + "\n");
+        console.log(motorId.grey + ": moving to index " + index.toString().green + " at position " + newPosition.toString().yellow + " with speed " + newSpeed.toString().red);
       }
 
       newInterval = setInterval(function() {
@@ -238,8 +238,25 @@ var Robot = function() {
         if (newPosition < currentPosition) offsetPosition = currentPosition - 1;
 
         if (motor.isEnabled) {
-          motor.servoWrite(offsetPosition);
-          motor.lastPosition = offsetPosition;
+          
+          var firstLimit = 0.0;
+          var secondLimit = 1.0;
+
+          if (newPosition < oldPosition) {
+            firstLimit = 1.0;
+            secondLimit = 0.0;
+          }
+
+          var easedPosition = Math.floor(easings.easeInOutQuad(offsetPosition.map(oldPosition, newPosition, firstLimit, secondLimit)).map(firstLimit, secondLimit, oldPosition, newPosition));
+          
+          if (self.debug) {
+            console.log(motorId.grey + ": moving to position " + easedPosition.toString().bold);
+          }
+
+          motor.servoWrite(easedPosition);
+
+          motor.lastPosition = easedPosition;
+
         }
 
         currentPosition = offsetPosition;
