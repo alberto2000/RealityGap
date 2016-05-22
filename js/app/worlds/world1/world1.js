@@ -29,7 +29,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		module.setControls();
 
 		// module.makeBackdrop();
-		// module.makeGround();
+		module.makeGround();
 		module.makeMonster();
 
 		window.world = module;
@@ -44,14 +44,29 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		module.socket = io();
 
-		module.socket.on('status-update', function(msg) {
+		module.socket.on('status-update', function(data) {
 			log("status-update:");
-			log(msg);
+			log(data);
 		});
 
-		module.socket.on('motor-update', function(msg) {
-			log("motor-update:");
-			log(msg);
+		module.socket.on('motor-update', function(data) {
+
+			var motorCount = module.monster.constraints.length;
+			var motorId = data.motorId;
+
+			if ((motorId + 1) > motorCount) {
+				return false;
+			}
+
+			var motor = module.monster.constraints[motorId];
+			var newPosition = data.newPosition;
+			var newSpeed = data.newSpeed;
+			var angularVelocity = (newPosition - motor.lastPosition) / 100;
+
+			log("motor" + motorId + " to " + angularVelocity);
+
+			motor.enableAngularMotor(angularVelocity, 100);
+
 		});
 
 	}
@@ -69,8 +84,8 @@ define(['functions', 'socketio'], function(Functions, io) {
 	module.setScene = function() {
 
 		module.scene = new Physijs.Scene;
-		// module.scene.setGravity(new THREE.Vector3(0, -5, -0.5));
-		module.scene.setGravity(new THREE.Vector3(0, 0, 0));
+		module.scene.setGravity(new THREE.Vector3(0, -5, -0.5));
+		// module.scene.setGravity(new THREE.Vector3(0, 0, 0));
 
 	}
 
@@ -211,11 +226,12 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		var constraint1 = new Physijs.HingeConstraint(body, leg1, new THREE.Vector3(0, 2, -0.5), new THREE.Vector3(0, 0, 1));
 
+		constraint1.lastPosition = 90;
+
 		module.scene.addConstraint(constraint1);
 		module.monster.constraints.push(constraint1);
 
 		constraint1.setLimits(-90*Math.PI/180, 90*Math.PI/180, 0.1, 0);
-		constraint1.enableAngularMotor(1, 10);
 
 		// LEG 2
 
@@ -239,11 +255,12 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		var constraint2 = new Physijs.HingeConstraint(leg1, leg2, new THREE.Vector3(0.5, 2, -1), new THREE.Vector3(1, 0, 0));
 
+		constraint2.lastPosition = 90;
+
 		module.scene.addConstraint(constraint2);
 		module.monster.constraints.push(constraint2);
 
 		constraint2.setLimits(-90*Math.PI/180, 90*Math.PI/180, 0.1, 0);
-		constraint2.enableAngularMotor(1, 10);
 
 	}
 

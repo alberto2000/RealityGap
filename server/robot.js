@@ -68,24 +68,24 @@ var Robot = function() {
 
     self.sweepSequences = [
       [
-        [0.0, 10],
-        [180.0, 10]
+        [0.0, 20],
+        [180.0, 20]
       ],
       [
-        [0.0, 10],
-        [180.0, 10]
+        [0.0, 20],
+        [180.0, 20]
       ],
       [
-        [0.0, 10],
-        [180.0, 10]
+        [0.0, 20],
+        [180.0, 20]
       ],
       [
-        [0.0, 10],
-        [180.0, 10]
+        [0.0, 20],
+        [180.0, 20]
       ],
       [
-        [0.0, 10],
-        [180.0, 10]
+        [0.0, 20],
+        [180.0, 20]
       ]
     ];
 
@@ -290,7 +290,7 @@ var Robot = function() {
       if (motor.isEnabled) {
 
         var emitJson = {
-          'motorId': motorId,
+          'motorId': motor.motorId,
           'newPosition': newPosition,
           'newSpeed': newSpeed
         };
