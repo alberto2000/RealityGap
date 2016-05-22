@@ -11,7 +11,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '../index.html');
 });
 
 app.use(express.static('./'));
@@ -116,14 +116,14 @@ var Robot = function() {
 
     if (self.running) self.stop();
 
-    console.log("\nAll motors moving to center position 1500".italic.grey);
+    console.log("\nAll motors moving to center position".italic.grey);
 
     for (var i = 0; i < self.motors.length; i++) {
       self.motors[i].servoWrite(startPosition);
       self.motors[i].lastPosition = startPosition;
     }
 
-    io.emit('status-update', "centered");
+    io.emit('status-update', "center");
 
     return "Ok!";
 
@@ -137,6 +137,8 @@ var Robot = function() {
       self.motors[i]['isEnabled'] = true;
     }
 
+    io.emit('status-update', "enableAllMotors");
+
     return "Ok!";
 
   }
@@ -149,6 +151,8 @@ var Robot = function() {
       self.motors[i]['isEnabled'] = false;
     }
 
+    io.emit('status-update', "disableAllMotors");
+
     return "Ok!";
 
   }
@@ -159,6 +163,8 @@ var Robot = function() {
 
     self.motors[motorId].isEnabled = true;
 
+    io.emit('status-update', "enableMotor" + motorId);
+
     return "Ok!";
 
   }
@@ -168,6 +174,8 @@ var Robot = function() {
     console.log("\nDisabling motor".italic.grey + motorId);
 
     self.motors[motorId].isEnabled = false;
+
+    io.emit('status-update', "disableMotor" + motorId);
 
     return "Ok!";
 
@@ -189,6 +197,8 @@ var Robot = function() {
       loopSequence(self.motors[i], self.sweepSequences[i], "motor"+i);
     }
 
+    io.emit('status-update', "sweep");
+
     return "Ok!";
 
   }
@@ -209,6 +219,8 @@ var Robot = function() {
       loopSequence(self.motors[i], self.moveSequences[i], "motor"+i);
     }
 
+    io.emit('status-update', "start");
+
     return "Ok!";
 
   }
@@ -222,12 +234,10 @@ var Robot = function() {
 
     console.log("\nRobot is being " + "stopped!".red.bold);
 
-    // for (var i = 0; i < self.motors.length; i++) {
-    //   self.motors[i].mode(0);
-    // }
-
     self.running = false;
     self.enableStop = true;
+
+    io.emit('status-update', "stop");
 
     return "Ok!";
 
