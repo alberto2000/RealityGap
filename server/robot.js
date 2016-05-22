@@ -22,8 +22,8 @@ http.listen(80);
 var Robot = function() {
 
   var self = this;
-  var startPosition = 1500;
   var range = [790, 2210];
+  var startPosition = 90.0;
 
   self.debug = false;
   self.enableStop = true;
@@ -45,6 +45,18 @@ var Robot = function() {
       });
 
       newMotor['lastPosition'] = undefined;
+      newMotor['motorId'] = self.motors.length;
+
+      newMotor.goto = function(position) {
+
+        if (position < 0.0) position = 0.0;
+        if (position > 180.0) position = 180.0;
+
+        var mappedPosition = Math.floor(position.map(0, 180, range[0], range[1]));
+
+        this.servoWrite(mappedPosition);
+
+      }
 
       self.motors.push(newMotor);
 
@@ -56,58 +68,58 @@ var Robot = function() {
 
     self.sweepSequences = [
       [
-        [range[0], 5],
-        [range[1], 5]
+        [0.0, 10],
+        [180.0, 10]
       ],
       [
-        [range[0], 5],
-        [range[1], 5]
+        [0.0, 10],
+        [180.0, 10]
       ],
       [
-        [range[0], 5],
-        [range[1], 5]
+        [0.0, 10],
+        [180.0, 10]
       ],
       [
-        [range[0], 5],
-        [range[1], 5]
+        [0.0, 10],
+        [180.0, 10]
       ],
       [
-        [range[0], 5],
-        [range[1], 5]
+        [0.0, 10],
+        [180.0, 10]
       ]
     ];
 
     self.moveSequences = [
       [
-        [2210, 15],
-        [1400, 10],
-        [1700, 17],
-        [790, 20]
+        [178.0, 15],
+        [85.0, 10],
+        [162.0, 17],
+        [10.0, 20]
       ],
       [
-        [1100, 8],
-        [790, 16],
-        [1100, 12],
-        [2210, 8],
-        [1400, 18]
+        [74.0, 8],
+        [5.0, 16],
+        [42.0, 12],
+        [178.0, 8],
+        [86.0, 18]
       ],
       [
-        [1800, 12],
-        [1400, 5],
-        [1700, 10],
-        [790, 5]
+        [100.0, 12],
+        [47.0, 5],
+        [162.0, 10],
+        [5.0, 5]
       ],
       [
-        [1800, 10],
-        [1400, 18],
-        [2000, 5],
-        [790, 12]
+        [103.0, 10],
+        [87.0, 18],
+        [178.0, 5],
+        [2.0, 12]
       ],
       [
-        [1450, 15],
-        [1575, 12],
-        [1425, 20],
-        [1550, 17]
+        [87.0, 15],
+        [160.0, 12],
+        [20.0, 20],
+        [140.0, 17]
       ]
     ];
 
@@ -120,7 +132,7 @@ var Robot = function() {
     console.log("\nAll motors moving to center position".italic.grey);
 
     for (var i = 0; i < self.motors.length; i++) {
-      self.motors[i].servoWrite(startPosition);
+      self.motors[i].goto(startPosition);
       self.motors[i].lastPosition = startPosition;
     }
 
@@ -258,7 +270,7 @@ var Robot = function() {
 
       if (!motor.isEnabled) return;
 
-      motor.servoWrite(startPosition);
+      motor.goto(startPosition);
       motor.lastPosition = startPosition;
 
     }
@@ -273,6 +285,18 @@ var Robot = function() {
 
       if (self.debug && motor.isEnabled) {
         console.log(motorId.grey + ": moving to index " + index.toString().green + " at position " + newPosition.toString().yellow + " with speed " + newSpeed.toString().red);
+      }
+
+      if (motor.isEnabled) {
+
+        var emitJson = {
+          'motorId': motorId,
+          'newPosition': newPosition,
+          'newSpeed': newSpeed
+        };
+
+        io.emit('motor-update', emitJson);
+
       }
 
       newInterval = setInterval(function() {
@@ -297,13 +321,13 @@ var Robot = function() {
             secondLimit = 0.0;
           }
 
-          var easedPosition = Math.floor(easings.easeInOutQuad(offsetPosition.map(oldPosition, newPosition, firstLimit, secondLimit)).map(firstLimit, secondLimit, oldPosition, newPosition));
+          var easedPosition = easings.easeInOutQuad(offsetPosition.map(oldPosition, newPosition, firstLimit, secondLimit)).map(firstLimit, secondLimit, oldPosition, newPosition);
           
           if (self.debug) {
             console.log(motorId.grey + ": moving to position " + easedPosition.toString().bold);
           }
 
-          if (easedPosition != motor.lastPosition) motor.servoWrite(easedPosition);
+          motor.goto(easedPosition);
 
           motor.lastPosition = easedPosition;
 

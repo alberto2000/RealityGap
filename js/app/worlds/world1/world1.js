@@ -36,9 +36,21 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		requestAnimationFrame(module.render);
 
+		module.socketInit();
+
+	}
+
+	module.socketInit = function() {
+
 		module.socket = io();
 
 		module.socket.on('status-update', function(msg) {
+			log("status-update:");
+			log(msg);
+		});
+
+		module.socket.on('motor-update', function(msg) {
+			log("motor-update:");
 			log(msg);
 		});
 
