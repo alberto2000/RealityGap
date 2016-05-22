@@ -63,9 +63,9 @@ define(['functions', 'socketio'], function(Functions, io) {
 			var newSpeed = data.newSpeed;
 			var angularVelocity = (newPosition - motor.lastPosition) / 100;
 
-			log("motor" + motorId + " to " + angularVelocity);
+			log("motor" + motorId + " to " + newPosition);
 
-			motor.enableAngularMotor(angularVelocity, 100);
+			motor.enableAngularMotor(angularVelocity, 10);
 
 		});
 
@@ -171,7 +171,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 				shading: THREE.FlatShading
 			}), 0.4, 0.6);
 
-			var floor = new Physijs.ConcaveMesh(geometry, material, 0);
+			var floor = new Physijs.BoxMesh(geometry, material, 0);
 			var normals = new THREE.FaceNormalsHelper(floor, 2, 0x00ff00, 1);
 
 			floor.geometry.dynamic = true;
