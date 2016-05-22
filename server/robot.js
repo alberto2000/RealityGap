@@ -160,11 +160,11 @@ var Robot = function() {
 
   self.enableMotor = function(motorId) {
 
-    console.log("\nEnabling motor".italic.grey + motorId);
+    console.log("\nEnabling motor ".italic.grey + motorId);
 
     self.motors[motorId].isEnabled = true;
 
-    io.emit('status-update', "enableMotor" + motorId);
+    io.emit('status-update', "enableMotor " + motorId);
 
     return "Ok!";
 
@@ -271,7 +271,7 @@ var Robot = function() {
       var newPosition = sequence[index][0];
       var newSpeed = sequence[index][1];
 
-      if (self.debug) {
+      if (self.debug && motor.isEnabled) {
         console.log(motorId.grey + ": moving to index " + index.toString().green + " at position " + newPosition.toString().yellow + " with speed " + newSpeed.toString().red);
       }
 
