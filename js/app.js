@@ -8,6 +8,7 @@ requirejs.config({
 		'events': 'app/events',
 		'three': 'vendor/three',
 		'physijs': 'vendor/physi',
+		'socketio': 'vendor/socket.io-1.4.5',
 		'orbitcontrols': 'plugins/OrbitControls',
 		'stlloader': 'plugins/STLLoader'
 	},

@@ -1,5 +1,5 @@
 // WORLD1.JS
-define(['functions'], function(Functions) {
+define(['functions', 'socketio'], function(Functions, io) {
 
 	var module = {
 		scene: {},
@@ -10,7 +10,8 @@ define(['functions'], function(Functions) {
 		monster: {
 			limbs: [],
 			constraints: []
-		}
+		},
+		socket: {}
 	};
 
 	module.init = function() {
@@ -34,6 +35,12 @@ define(['functions'], function(Functions) {
 		window.world = module;
 
 		requestAnimationFrame(module.render);
+
+		module.socket = io();
+
+		module.socket.on('status-update', function(msg) {
+			log(msg);
+		});
 
 	}
 

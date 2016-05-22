@@ -3,18 +3,6 @@
 var repl = require('repl');
 var argv = require('yargs').argv;
 var Robot = require('./robot.js');
-var express = require('express');
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/index.html');
-});
-
-app.use(express.static('./'));
-
-http.listen(80);
 
 var debug = false;
 var immediateStart = false;

@@ -5,6 +5,19 @@ require('pigpio').configureClock(1, 0);
 var Gpio = require('pigpio').Gpio;
 var easings = require('./easings.js');
 
+var express = require('express');
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + '/index.html');
+});
+
+app.use(express.static('./'));
+
+http.listen(80);
+
 var Robot = function() {
 
   var self = this;
@@ -109,6 +122,8 @@ var Robot = function() {
       self.motors[i].servoWrite(startPosition);
       self.motors[i].lastPosition = startPosition;
     }
+
+    io.emit('status-update', "centered");
 
     return "Ok!";
 
