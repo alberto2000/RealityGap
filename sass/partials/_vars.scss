@@ -1,0 +1,12 @@
+/* _VARS.SCSS */
+
+// BREAKPOINTS
+$breakMobile: 0 767px;
+$breakTablet: 768px 1024px;
+$breakSmall: 1025px 1280px;
+$breakMedium: 1281px 1440px;
+$breakLarge: 1441px 1680px;
+$breakHuge: 1681px;
+
+// OTHER
+$retina: min-resolution 144dpi;

@@ -1,0 +1,20 @@
+/* _ELEMENTS.SCSS */
+
+html, body {
+	overflow: hidden;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+}
+
+#page {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	background-size: cover;
+	background-position: center;
+}

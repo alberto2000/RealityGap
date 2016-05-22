@@ -1,0 +1,29 @@
+/* _HELPERS.SCSS */
+
+.hide, .hidden {
+	display: none;
+}
+
+.show {
+	display: block;
+}
+
+.invisible {
+	visibility: hidden;
+}
+
+.left {
+	text-align: left;
+}
+
+.right {
+	text-align: right;
+}
+
+.center {
+	text-align: center;
+}
+
+.wrapper {
+	@include clearfix;
+}
