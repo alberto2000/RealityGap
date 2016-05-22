@@ -30,16 +30,6 @@ var Robot = function() {
         mode: Gpio.OUTPUT
       });
 
-      newMotor.enableMotor = function() {
-        newMotor.isEnabled = true;
-        return "Ok!";
-      }
-
-      newMotor.disableMotor = function() {
-        newMotor.isEnabled = false;
-        return "Ok!";
-      }
-
       newMotor['lastPosition'] = undefined;
 
       self.motors.push(newMotor);
@@ -52,70 +42,68 @@ var Robot = function() {
 
     self.sweepSequences = [
       [
-        [range[0], 3],
-        [range[1], 3]
+        [range[0], 5],
+        [range[1], 5]
       ],
       [
-        [range[0], 3],
-        [range[1], 3]
+        [range[0], 5],
+        [range[1], 5]
       ],
       [
-        [range[0], 3],
-        [range[1], 3]
+        [range[0], 5],
+        [range[1], 5]
       ],
       [
-        [range[0], 3],
-        [range[1], 3]
+        [range[0], 5],
+        [range[1], 5]
       ],
       [
-        [range[0], 3],
-        [range[1], 3]
+        [range[0], 5],
+        [range[1], 5]
       ]
     ];
 
     self.moveSequences = [
       [
-        [2210, 5],
+        [2210, 15],
         [1400, 10],
-        [1700, 1],
-        [790, 10]
+        [1700, 17],
+        [790, 20]
       ],
       [
         [1100, 8],
-        [790, 6],
-        [1100, 20],
-        [2210, 1],
-        [1400, 10]
+        [790, 16],
+        [1100, 12],
+        [2210, 8],
+        [1400, 18]
       ],
       [
         [1800, 12],
         [1400, 5],
-        [1700, 4],
-        [790, 1]
+        [1700, 10],
+        [790, 5]
       ],
       [
         [1800, 10],
-        [1400, 8],
-        [2000, 3],
-        [790, 1]
+        [1400, 18],
+        [2000, 5],
+        [790, 12]
       ],
       [
-        [1800, 5],
-        [790, 1],
-        [1700, 13],
-        [1100, 7],
-        [2000, 15],
-        [1100, 4]
+        [1450, 15],
+        [1575, 12],
+        [1425, 20],
+        [1550, 17]
       ]
     ];
 
   }
 
-  self.calibrate = function() {
+  self.center = function() {
 
     if (self.running) self.stop();
 
-    console.log("\nAll motors moving to neutral position 1500".italic.grey);
+    console.log("\nAll motors moving to center position 1500".italic.grey);
 
     for (var i = 0; i < self.motors.length; i++) {
       self.motors[i].servoWrite(startPosition);
@@ -133,6 +121,38 @@ var Robot = function() {
     for (var i = 0; i < self.motors.length; i++) {
       self.motors[i]['isEnabled'] = true;
     }
+
+    return "Ok!";
+
+  }
+
+  self.disableAllMotors = function() {
+
+    console.log("\nDisabling all motors".italic.grey);
+
+    for (var i = 0; i < self.motors.length; i++) {
+      self.motors[i]['isEnabled'] = false;
+    }
+
+    return "Ok!";
+
+  }
+
+  self.enableMotor = function(motorId) {
+
+    console.log("\nEnabling motor".italic.grey + motorId);
+
+    self.motors[motorId].isEnabled = true;
+
+    return "Ok!";
+
+  }
+
+  self.disableMotor = function(motorId) {
+
+    console.log("\nDisabling motor".italic.grey + motorId);
+
+    self.motors[motorId].isEnabled = false;
 
     return "Ok!";
 
@@ -186,6 +206,10 @@ var Robot = function() {
     }
 
     console.log("\nRobot is being " + "stopped!".red.bold);
+
+    // for (var i = 0; i < self.motors.length; i++) {
+    //   self.motors[i].mode(0);
+    // }
 
     self.running = false;
     self.enableStop = true;
@@ -253,7 +277,7 @@ var Robot = function() {
             console.log(motorId.grey + ": moving to position " + easedPosition.toString().bold);
           }
 
-          motor.servoWrite(easedPosition);
+          if (easedPosition != motor.lastPosition) motor.servoWrite(easedPosition);
 
           motor.lastPosition = easedPosition;
 

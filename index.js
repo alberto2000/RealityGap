@@ -2,15 +2,31 @@
 
 var repl = require('repl');
 var argv = require('yargs').argv;
-var Robot = require('./robot_pigpio.js');
+var Robot = require('./robot.js');
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + '/index.html');
+});
+
+io.on('connection', function(socket) {
+  console.log('a user connected');
+});
+
+http.listen(3000, function() {
+  console.log('listening on *:3000');
+});
+
 var debug = false;
 var immediateStart = false;
-var calibrate = false;
+var center = false;
 var sweep = false;
 
 if (argv.debug) debug = true;
 if (argv.start) immediateStart = true;
-if (argv.calibrate) calibrate = true;
+if (argv.center) center = true;
 if (argv.sweep) sweep = true;
 
 console.log("\n–––");
@@ -33,8 +49,8 @@ if (immediateStart) {
 	Robot.start();
 }
 
-if (calibrate) {
-	Robot.calibrate();
+if (center) {
+	Robot.center();
 }
 
 if (sweep) {
