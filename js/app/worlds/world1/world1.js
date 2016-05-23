@@ -34,7 +34,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		window.world = module;
 
-		requestAnimationFrame(module.render);
+		module.render;
 
 		module.socketInit();
 
@@ -77,7 +77,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		module.renderer.render(module.scene, module.camera);
 		module.controls.update();
 
-		requestAnimationFrame(module.render);
+		module.render;
 
 	}
 
@@ -191,7 +191,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		var geometry = new THREE.BoxGeometry(1, 1, 1);
 		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
 			color: 0xff0000
-		}), 0.4, 0.8);
+		}), 0.4, 0.1);
 		var body = new Physijs.BoxMesh(geometry, material, 0.5);
 
 		body.geometry.dynamic = true;
@@ -209,7 +209,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		var geometry = new THREE.BoxGeometry(1, 1.5, 1);
 		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
 			color: 0xff0000
-		}), 0.4, 0.8);
+		}), 0.4, 0.1);
 		var leg1 = new Physijs.BoxMesh(geometry, material, 0.5);
 
 		leg1.geometry.dynamic = true;
@@ -231,14 +231,14 @@ define(['functions', 'socketio'], function(Functions, io) {
 		module.scene.addConstraint(constraint1);
 		module.monster.constraints.push(constraint1);
 
-		constraint1.setLimits(-90*Math.PI/180, 90*Math.PI/180, 0.1, 0);
+		constraint1.setLimits(-90*Math.PI/180, 90*Math.PI/180, 0, 0);
 
 		// LEG 2
 
 		var geometry = new THREE.BoxGeometry(1, 1, 1);
 		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
 			color: 0xff0000
-		}), 0.4, 0.8);
+		}), 0.4, 0.1);
 		var leg2 = new Physijs.BoxMesh(geometry, material, 0.5);
 
 		leg2.geometry.dynamic = true;
@@ -260,7 +260,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		module.scene.addConstraint(constraint2);
 		module.monster.constraints.push(constraint2);
 
-		constraint2.setLimits(-90*Math.PI/180, 90*Math.PI/180, 0.1, 0);
+		constraint2.setLimits(-90*Math.PI/180, 90*Math.PI/180, 0, 0);
 
 	}
 
