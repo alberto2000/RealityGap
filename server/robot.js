@@ -66,60 +66,63 @@ var Robot = function() {
 
   function createSequences() {
 
+    // position: 0 - 180
+    // speed: 1 - 100
+
     self.sweepSequences = [
       [
-        [0.0, 20],
-        [180.0, 20]
+        [0, 25],
+        [180, 25]
       ],
       [
-        [0.0, 20],
-        [180.0, 20]
+        [0, 25],
+        [180, 25]
       ],
       [
-        [0.0, 20],
-        [180.0, 20]
+        [0, 25],
+        [180, 25]
       ],
       [
-        [0.0, 20],
-        [180.0, 20]
+        [0, 25],
+        [180, 25]
       ],
       [
-        [0.0, 20],
-        [180.0, 20]
+        [0, 25],
+        [180, 25]
       ]
     ];
 
     self.moveSequences = [
       [
-        [178.0, 15],
-        [85.0, 10],
-        [162.0, 17],
-        [10.0, 20]
+        [178, 21],
+        [85, 75],
+        [162, 17],
+        [10, 82]
       ],
       [
-        [74.0, 8],
-        [5.0, 16],
-        [42.0, 12],
-        [178.0, 8],
-        [86.0, 18]
+        [74, 18],
+        [5, 76],
+        [42, 22],
+        [178, 66],
+        [86, 82]
       ],
       [
-        [100.0, 12],
-        [47.0, 5],
-        [162.0, 10],
-        [5.0, 5]
+        [100, 32],
+        [47, 85],
+        [162, 12],
+        [5, 45]
       ],
       [
-        [103.0, 10],
-        [87.0, 18],
-        [178.0, 5],
-        [2.0, 12]
+        [103, 72],
+        [87, 28],
+        [178, 82],
+        [2, 22]
       ],
       [
-        [87.0, 15],
-        [160.0, 12],
-        [20.0, 20],
-        [140.0, 17]
+        [87, 25],
+        [160, 76],
+        [20, 40],
+        [140, 52]
       ]
     ];
 
@@ -283,6 +286,11 @@ var Robot = function() {
       var newPosition = sequence[index][0];
       var newSpeed = sequence[index][1];
 
+      if (newSpeed > 30) newSpeed = 30;
+      if (newSpeed < 1) newSpeed = 1;
+
+      var newSpeedMapped = newSpeed.map(1, 30, 100, 1);
+
       if (self.debug && motor.isEnabled) {
         console.log(motorId.grey + ": moving to index " + index.toString().green + " at position " + newPosition.toString().yellow + " with speed " + newSpeed.toString().red);
       }
@@ -344,7 +352,7 @@ var Robot = function() {
 
         }
 
-      }, newSpeed);
+      }, newSpeedMapped);
 
     }
 
