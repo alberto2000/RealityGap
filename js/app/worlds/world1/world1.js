@@ -34,7 +34,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		window.world = module;
 
-		module.render;
+		requestAnimationFrame(module.render);
 
 		module.socketInit();
 
@@ -61,7 +61,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 			var motor = module.monster.constraints[motorId];
 			var newPosition = data.newPosition;
 			var newSpeed = data.newSpeed;
-			var angularVelocity = (newPosition - motor.lastPosition) / 100;
+			var angularVelocity = (newPosition - motor.lastPosition) / 50;
 
 			log("motor" + motorId + " to " + newPosition);
 
@@ -77,7 +77,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		module.renderer.render(module.scene, module.camera);
 		module.controls.update();
 
-		module.render;
+		requestAnimationFrame(module.render);
 
 	}
 
@@ -190,7 +190,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		var geometry = new THREE.BoxGeometry(1, 1, 1);
 		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
-			color: 0xff0000
+			color: 0xe2e2e2
 		}), 0.4, 0.1);
 		var body = new Physijs.BoxMesh(geometry, material, 0.5);
 
@@ -208,7 +208,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		var geometry = new THREE.BoxGeometry(1, 1.5, 1);
 		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
-			color: 0xff0000
+			color: 0xe2e2e2
 		}), 0.4, 0.1);
 		var leg1 = new Physijs.BoxMesh(geometry, material, 0.5);
 
@@ -217,50 +217,50 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		leg1.position.x = 0;
 		leg1.position.y = 2;
-		leg1.position.z = -1;
+		leg1.position.z = -1.25;
 
 		module.scene.add(leg1);
 		module.monster.limbs.push(leg1);
 
 		// CONSTRAINT 1
 
-		var constraint1 = new Physijs.HingeConstraint(body, leg1, new THREE.Vector3(0, 2, -0.5), new THREE.Vector3(0, 0, 1));
+		var constraint1 = new Physijs.HingeConstraint(body, leg1, new THREE.Vector3(0, 2, -0.75), new THREE.Vector3(0, 0, 1));
 
 		constraint1.lastPosition = 90;
 
 		module.scene.addConstraint(constraint1);
 		module.monster.constraints.push(constraint1);
 
-		constraint1.setLimits(-90*Math.PI/180, 90*Math.PI/180, 0, 0);
+		constraint1.setLimits(-90*Math.PI/180, 90*Math.PI/180, 1, 0);
 
 		// LEG 2
 
 		var geometry = new THREE.BoxGeometry(1, 1, 1);
 		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
-			color: 0xff0000
+			color: 0xe2e2e2
 		}), 0.4, 0.1);
 		var leg2 = new Physijs.BoxMesh(geometry, material, 0.5);
 
 		leg2.geometry.dynamic = true;
 		leg2.castShadow = true;
 
-		leg2.position.x = 1;
+		leg2.position.x = 1.25;
 		leg2.position.y = 2.25;
-		leg2.position.z = -1;
+		leg2.position.z = -1.25;
 
 		module.scene.add(leg2);
 		module.monster.limbs.push(leg2);
 
 		// CONSTRAINT 2
 
-		var constraint2 = new Physijs.HingeConstraint(leg1, leg2, new THREE.Vector3(0.5, 2, -1), new THREE.Vector3(1, 0, 0));
+		var constraint2 = new Physijs.HingeConstraint(leg1, leg2, new THREE.Vector3(0.75, 2, -1.25), new THREE.Vector3(1, 0, 0));
 
 		constraint2.lastPosition = 90;
 
 		module.scene.addConstraint(constraint2);
 		module.monster.constraints.push(constraint2);
 
-		constraint2.setLimits(-90*Math.PI/180, 90*Math.PI/180, 0, 0);
+		constraint2.setLimits(-90*Math.PI/180, 90*Math.PI/180, 1, 0);
 
 	}
 
