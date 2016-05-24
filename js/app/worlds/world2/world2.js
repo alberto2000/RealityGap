@@ -33,6 +33,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		// module.makeBackdrop();
 		module.makeGround();
 		module.makeMonster();
+		module.makeBalls();
 
 		window.world = module;
 
@@ -176,7 +177,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		var jsonLoader = new THREE.JSONLoader();
 
-		jsonLoader.load('elements/landscape.json', function(geometry) {
+		jsonLoader.load('elements/landscape2.json', function(geometry) {
 
 			var material = Physijs.createMaterial(new THREE.MeshPhongMaterial({
 				shading: THREE.FlatShading
@@ -274,6 +275,26 @@ define(['functions', 'socketio'], function(Functions, io) {
 		module.monster.constraints.push(constraint2);
 
 		constraint2.setLimits(-90*Math.PI/180, 90*Math.PI/180, 1, 0);
+
+	}
+
+	module.makeBalls = function() {
+
+		// BALLS
+		var geometry = new THREE.SphereGeometry(0.5, 16, 16);
+		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
+			color: 0xff0000
+		}), 0.1, 0.9);
+		var ball = new Physijs.SphereMesh(geometry, material, 0.5);
+
+		ball.geometry.dynamic = true;
+		ball.castShadow = true;
+
+		ball.position.x = 0;
+		ball.position.y = 4;
+		ball.position.z = 0;
+
+		module.scene.add(ball);
 
 	}
 
