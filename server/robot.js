@@ -31,6 +31,8 @@ var Robot = function() {
   self.motors = [];
   self.moveSequences = [];
 
+  // available GPIO for servos:
+  // 4, 17, 27, 22, 5, 6, 13, 19
   createMotors([4, 17, 27, 22, 5, 6]);
   createSequences();
 
