@@ -31,8 +31,16 @@ var Robot = function() {
   self.motors = [];
   self.moveSequences = [];
 
-  createMotors([17, 22, 23, 24, 27]);
+  createMotors([4, 17, 27, 22, 5, 6]);
   createSequences();
+
+  function createPiezo(piezoPin) {
+
+    self.piezo = new Gpio(piezoPin, {
+      mode: Gpio.OUTPUT
+    });
+
+  }
 
   function createMotors(motorPins) {
 
@@ -69,27 +77,9 @@ var Robot = function() {
     // position: 0 - 180
     // speed: 1 - 100
 
-    self.sweepSequences = [
-      [
-        [0, 25],
-        [180, 25]
-      ],
-      [
-        [0, 25],
-        [180, 25]
-      ],
-      [
-        [0, 25],
-        [180, 25]
-      ],
-      [
-        [0, 25],
-        [180, 25]
-      ],
-      [
-        [0, 25],
-        [180, 25]
-      ]
+    self.sweepSequence = [
+      [0, 25],
+      [180, 25]
     ];
 
     self.moveSequences = [
@@ -123,6 +113,14 @@ var Robot = function() {
         [160, 76],
         [20, 40],
         [140, 52]
+      ],
+      [
+        [176, 82],
+        [160, 32],
+        [20, 10],
+        [140, 73],
+        [10, 92],
+        [120, 7]
       ]
     ];
 
@@ -210,7 +208,7 @@ var Robot = function() {
     self.enableStop = false;
 
     for (var i = 0; i < self.motors.length; i++) {
-      loopSequence(self.motors[i], self.sweepSequences[i], "motor"+i);
+      loopSequence(self.motors[i], self.sweepSequence, "motor" + i);
     }
 
     io.emit('status-update', "sweep");

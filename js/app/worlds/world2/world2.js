@@ -285,16 +285,23 @@ define(['functions', 'socketio'], function(Functions, io) {
 		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
 			color: 0xff0000
 		}), 0.1, 0.9);
-		var ball = new Physijs.SphereMesh(geometry, material, 0.5);
 
-		ball.geometry.dynamic = true;
-		ball.castShadow = true;
+		var ball;
 
-		ball.position.x = 0;
-		ball.position.y = 4;
-		ball.position.z = 0;
+		for (var i = 0; i < 6; i++) {
+			
+			ball = new Physijs.SphereMesh(geometry, material, 0.1);
 
-		module.scene.add(ball);
+			ball.geometry.dynamic = true;
+			ball.castShadow = true;
+
+			ball.position.x = Math.floor(Math.random() * (10 - 0)) + 0;
+			ball.position.y = Math.floor(Math.random() * (5 - 0)) + 0;
+			ball.position.z = Math.floor(Math.random() * (10 - 0)) + 0;
+
+			module.scene.add(ball);
+
+		}
 
 	}
 
