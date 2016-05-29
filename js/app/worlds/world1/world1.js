@@ -13,7 +13,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 			constraints: []
 		},
 		socket: {},
-		cameraRotation: true
+		cameraRotation: false
 	};
 
 	module.init = function() {
@@ -182,7 +182,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 				shading: THREE.FlatShading
 			}), 0.4, 0.6);
 
-			var floor = new Physijs.ConcaveMesh(geometry, material, 0);
+			var floor = new Physijs.BoxMesh(geometry, material, 0);
 			var normals = new THREE.FaceNormalsHelper(floor, 2, 0x00ff00, 1);
 
 			floor.geometry.dynamic = true;
@@ -219,7 +219,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		// LEG 1
 
-		var geometry = new THREE.BoxGeometry(1, 1.5, 1);
+		var geometry = new THREE.BoxGeometry(1, 1, 1);
 		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
 			color: 0xf2f2f2
 		}), 0.4, 0.1);
@@ -228,23 +228,23 @@ define(['functions', 'socketio'], function(Functions, io) {
 		leg1.geometry.dynamic = true;
 		leg1.castShadow = true;
 
-		leg1.position.x = 0;
+		leg1.position.x = 1;
 		leg1.position.y = 2;
-		leg1.position.z = -1.25;
+		leg1.position.z = 0;
 
 		module.scene.add(leg1);
 		module.monster.limbs.push(leg1);
 
 		// CONSTRAINT 1
 
-		var constraint1 = new Physijs.HingeConstraint(body, leg1, new THREE.Vector3(0, 2, -0.75), new THREE.Vector3(0, 0, 1));
+		// var constraint1 = new Physijs.HingeConstraint(body, leg1, new THREE.Vector3(0, 2, -0.75), new THREE.Vector3(0, 0, 1));
 
-		constraint1.lastPosition = 90;
+		// constraint1.lastPosition = 90;
 
-		module.scene.addConstraint(constraint1);
-		module.monster.constraints.push(constraint1);
+		// module.scene.addConstraint(constraint1);
+		// module.monster.constraints.push(constraint1);
 
-		constraint1.setLimits(-90*Math.PI/180, 90*Math.PI/180, 1, 0);
+		// constraint1.setLimits(-90*Math.PI/180, 90*Math.PI/180, 1, 0);
 
 		// LEG 2
 
@@ -257,23 +257,23 @@ define(['functions', 'socketio'], function(Functions, io) {
 		leg2.geometry.dynamic = true;
 		leg2.castShadow = true;
 
-		leg2.position.x = 1.25;
-		leg2.position.y = 2.25;
-		leg2.position.z = -1.25;
+		leg2.position.x = 0;
+		leg2.position.y = 2;
+		leg2.position.z = -1;
 
 		module.scene.add(leg2);
 		module.monster.limbs.push(leg2);
 
 		// CONSTRAINT 2
 
-		var constraint2 = new Physijs.HingeConstraint(leg1, leg2, new THREE.Vector3(0.75, 2, -1.25), new THREE.Vector3(1, 0, 0));
+		// var constraint2 = new Physijs.HingeConstraint(leg1, leg2, new THREE.Vector3(0.75, 2, -1.25), new THREE.Vector3(1, 0, 0));
 
-		constraint2.lastPosition = 90;
+		// constraint2.lastPosition = 90;
 
-		module.scene.addConstraint(constraint2);
-		module.monster.constraints.push(constraint2);
+		// module.scene.addConstraint(constraint2);
+		// module.monster.constraints.push(constraint2);
 
-		constraint2.setLimits(-90*Math.PI/180, 90*Math.PI/180, 1, 0);
+		// constraint2.setLimits(-90*Math.PI/180, 90*Math.PI/180, 1, 0);
 
 	}
 
