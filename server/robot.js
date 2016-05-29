@@ -293,6 +293,8 @@ var Robot = function() {
       if (newSpeed > 100) newSpeed = 100;
       if (newSpeed < 1) newSpeed = 1;
 
+      var newSpeedMapped = newSpeed.map(1, 100, 100, 1);
+
       if (self.debug && motor.isEnabled) {
         console.log(motorId.grey + ": moving to index " + index.toString().green + " at position " + newPosition.toString().yellow + " with speed " + newSpeed.toString().red);
       }
@@ -354,7 +356,7 @@ var Robot = function() {
 
         }
 
-      }, newSpeed);
+      }, newSpeedMapped);
 
     }
 
