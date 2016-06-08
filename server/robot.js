@@ -170,7 +170,12 @@ var Robot = function() {
 
   self.setSequences = function(type) {
 
-    console.log(("\nSet sequence type: " + type).italic.grey);
+    if (type != "velvet" || 
+        type != "nature" || 
+        type != "ballpit") {
+        console.log("\nWrong sequence type!".bgRed.white.bold);
+        return false;
+    }
 
     switch(type) {
 
@@ -187,6 +192,8 @@ var Robot = function() {
       break;
 
     }
+
+    return true;
 
   }
 
