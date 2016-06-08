@@ -170,8 +170,8 @@ var Robot = function() {
 
   self.setSequences = function(type) {
 
-    if (type != "velvet" || 
-        type != "nature" || 
+    if (type != "velvet" && 
+        type != "nature" && 
         type != "ballpit") {
         console.log("\nWrong sequence type!".bgRed.white.bold);
         return false;
