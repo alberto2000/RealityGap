@@ -2,7 +2,7 @@
 
 var repl = require('repl');
 var argv = require('yargs').argv;
-var Robot = require('./robot_velvet.js');
+var Robot = require('./robot.js');
 var art = require('ascii-art');
 
 var debug = false;
