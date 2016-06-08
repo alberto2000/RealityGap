@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-// ROBOT #1
-// "Velvet World"
-// Soft & Smooth
+// ROBOT #2
+// "Nature"
+// Crawling, meandering
 
 var colors = require('colors');
 require('pigpio').configureClock(1, 0); 
