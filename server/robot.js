@@ -5,7 +5,7 @@
 // Soft & Smooth
 
 var colors = require('colors');
-require('pigpio').configureClock(1, 0);
+require('pigpio').configureClock(1, 0); 
 var Gpio = require('pigpio').Gpio;
 var easings = require('./easings.js');
 
@@ -39,14 +39,6 @@ var Robot = function() {
   // 4, 17, 27, 22, 5, 6, 13, 19
   createMotors([4, 17, 27, 22, 5, 6]);
   createSequences();
-
-  function createPiezo(piezoPin) {
-
-    self.piezo = new Gpio(piezoPin, {
-      mode: Gpio.OUTPUT
-    });
-
-  }
 
   function createMotors(motorPins) {
 
@@ -338,7 +330,7 @@ var Robot = function() {
           if (self.debug) {
             console.log(motorId.grey + ": moving to position " + easedPosition.toString().bold);
           }
-
+          
           motor.goto(easedPosition);
 
           motor.lastPosition = easedPosition;
