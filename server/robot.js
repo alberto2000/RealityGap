@@ -79,6 +79,7 @@ var Robot = function() {
       [180, 25]
     ];
 
+    // soft & smooth, slow
     self.velvetSequences = [
       [
         [178, 11],
@@ -107,6 +108,7 @@ var Robot = function() {
       ]
     ];
 
+    // meandering, crawling, ...
     self.natureSequences = [
       [
         [178, 11],
@@ -135,6 +137,7 @@ var Robot = function() {
       ]
     ];
 
+    // quick, sudden movements, smash some balls around
     self.ballpitSequences = [
       [
         [178, 11],
@@ -169,7 +172,7 @@ var Robot = function() {
 
     console.log(("\nSet sequence type: " + type).italic.grey);
 
-    switch (type) {
+    switch(type) {
 
       case "velvet":
         self.selectedSequences = self.velvetSequences;
