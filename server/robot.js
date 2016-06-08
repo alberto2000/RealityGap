@@ -177,6 +177,8 @@ var Robot = function() {
         return false;
     }
 
+    console.log(("\nSetting sequence type to: " + type).italic.grey);
+
     switch(type) {
 
       case "velvet":
