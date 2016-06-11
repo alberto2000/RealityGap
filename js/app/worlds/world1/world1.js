@@ -39,7 +39,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		requestAnimationFrame(module.render);
 
-		// module.socketInit();
+		module.socketInit();
 
 	}
 
