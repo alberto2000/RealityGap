@@ -225,7 +225,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		// BODY
 
 		var geometry = new THREE.BoxGeometry(2, 1, 1);
-		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 1, 0.1);
+		var material = Physijs.createMaterial(new THREE.MeshNormalMaterial(), 1, 0.1);
 		var body = new Physijs.BoxMesh(geometry, material, 0.5);
 		var normals = new THREE.FaceNormalsHelper(body, 2, 0x00ff00, 1);
 
@@ -240,7 +240,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		normals.update();
 
-		module.scene.add(normals);
+		// module.scene.add(normals);
 		module.scene.add(body);
 
 		module.monster.normals.push(normals);
@@ -249,7 +249,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		// LEG 1
 
 		var geometry = new THREE.BoxGeometry(2, 1, 1);
-		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 1, 0.1);
+		var material = Physijs.createMaterial(new THREE.MeshNormalMaterial(), 1, 0.1);
 		var leg1 = new Physijs.BoxMesh(geometry, material, 0.5);
 		var normals = new THREE.FaceNormalsHelper(leg1, 2, 0x00ff00, 1);
 
@@ -264,7 +264,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		normals.update();
 
-		module.scene.add(normals);
+		// module.scene.add(normals);
 		module.scene.add(leg1);
 
 		module.monster.normals.push(normals);
@@ -284,7 +284,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		// LEG 2
 
 		var geometry = new THREE.BoxGeometry(1, 1, 1);
-		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 1, 0.1);
+		var material = Physijs.createMaterial(new THREE.MeshNormalMaterial(), 1, 0.1);
 		var leg2 = new Physijs.BoxMesh(geometry, material, 0.5);
 		var normals = new THREE.FaceNormalsHelper(leg2, 2, 0x00ff00, 1);
 
@@ -299,7 +299,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		normals.update();
 
-		module.scene.add(normals);
+		// module.scene.add(normals);
 		module.scene.add(leg2);
 
 		module.monster.normals.push(normals);
@@ -319,7 +319,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		// LEG 3
 
 		var geometry = new THREE.BoxGeometry(1, 1, 1);
-		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 1, 0.1);
+		var material = Physijs.createMaterial(new THREE.MeshNormalMaterial(), 1, 0.1);
 		var leg3 = new Physijs.BoxMesh(geometry, material, 0.5);
 		var normals = new THREE.FaceNormalsHelper(leg3, 2, 0x00ff00, 1);
 
@@ -334,7 +334,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		normals.update();
 
-		module.scene.add(normals);
+		// module.scene.add(normals);
 		module.scene.add(leg3);
 
 		module.monster.normals.push(normals);
@@ -354,7 +354,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		// LEG 4
 
 		var geometry = new THREE.BoxGeometry(1, 2, 1);
-		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 1, 0.1);
+		var material = Physijs.createMaterial(new THREE.MeshNormalMaterial(), 1, 0.1);
 		var leg4 = new Physijs.BoxMesh(geometry, material, 0.5);
 		var normals = new THREE.FaceNormalsHelper(leg4, 2, 0x00ff00, 1);
 
@@ -369,7 +369,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		normals.update();
 
-		module.scene.add(normals);
+		// module.scene.add(normals);
 		module.scene.add(leg4);
 
 		module.monster.normals.push(normals);
