@@ -10,10 +10,11 @@ define(['functions', 'socketio'], function(Functions, io) {
 		floor: {},
 		monster: {
 			limbs: [],
-			constraints: []
+			constraints: [],
+			normals: []
 		},
 		socket: {},
-		cameraRotation: true
+		cameraRotation: false
 	};
 
 	module.init = function() {
@@ -31,14 +32,14 @@ define(['functions', 'socketio'], function(Functions, io) {
 		module.setControls();
 
 		// module.makeBackdrop();
-		module.makeGround();
+		// module.makeGround();
 		module.makeMonster();
 
 		window.world = module;
 
 		requestAnimationFrame(module.render);
 
-		module.socketInit();
+		// module.socketInit();
 
 	}
 
@@ -63,11 +64,15 @@ define(['functions', 'socketio'], function(Functions, io) {
 			var motor = module.monster.constraints[motorId];
 			var newPosition = data.newPosition;
 			var newSpeed = data.newSpeed;
-			var angularVelocity = (newPosition - motor.lastPosition) / 50;
+			var pre = 1;
+
+			if (newPosition < motor.lastPosition) pre = -1;
 
 			log("motor" + motorId + " to " + newPosition);
 
-			motor.enableAngularMotor(angularVelocity, 10);
+			motor.enableAngularMotor(pre * 0.5, 10);
+
+			motor.lastPosition = newPosition;
 
 		});
 
@@ -85,7 +90,15 @@ define(['functions', 'socketio'], function(Functions, io) {
 			var cameraZdistance = 12;
 			module.camera.position.x = Math.cos(timer) * cameraXdistance;
 			module.camera.position.z = Math.sin(timer) * cameraZdistance;
-			module.camera.lookAt(module.scene.position);
+			module.camera.lookAt(module.monster.limbs[0]);
+		}
+
+		if (module.monster.normals.length > 0) {
+
+			for (var i = 0; i < module.monster.normals.length; i++) {
+				module.monster.normals[i].update();
+			}
+
 		}
 
 		requestAnimationFrame(module.render);
@@ -95,14 +108,16 @@ define(['functions', 'socketio'], function(Functions, io) {
 	module.setScene = function() {
 
 		module.scene = new Physijs.Scene();
-		module.scene.setGravity(new THREE.Vector3(0, -5, -0.5));
-		// module.scene.setGravity(new THREE.Vector3(0, 0, 0));
+		// module.scene.setGravity(new THREE.Vector3(0, -5, -0.5));
+		module.scene.setGravity(new THREE.Vector3(0, 0, 0));
 
 	}
 
 	module.setRenderer = function() {
 
-		var renderer = new THREE.WebGLRenderer();
+		var renderer = new THREE.WebGLRenderer({
+			antialias: false
+		});
 
 		renderer.shadowMap.enabled = true;
 		renderer.shadowMap.type = THREE.PCFShadowMap;
@@ -124,10 +139,15 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 	module.setCamera = function() {
 
-		module.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+		module.camera = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, -500, 1000);
+		
+		module.camera.position.x = 2;
+		module.camera.position.y = 2;
+		module.camera.position.z = 2;
 
-        module.camera.position.set(2, 4, 12);
-        module.camera.lookAt(module.floor);
+		module.camera.zoom = 45;
+
+		module.camera.updateProjectionMatrix();
 
         module.scene.add(module.camera);
 
@@ -181,13 +201,15 @@ define(['functions', 'socketio'], function(Functions, io) {
 				
 			}), 0.4, 0.6);
 
-			var floor = new Physijs.BoxMesh(geometry, material, 0);
+			var floor = new Physijs.ConcaveMesh(geometry, material, 0);
 			var normals = new THREE.FaceNormalsHelper(floor, 2, 0x00ff00, 1);
 
 			floor.geometry.dynamic = true;
 			floor.receiveShadow = true;
 
 			module.floor = floor;
+
+			normals.update();
 
 			module.scene.add(floor);
 			module.scene.add(normals);
@@ -200,73 +222,167 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		// BODY
 
-		var geometry = new THREE.BoxGeometry(1, 1, 1);
-		var material = Physijs.createMaterial(new THREE.MeshNormalMaterial(), 0.4, 0.1);
+		var geometry = new THREE.BoxGeometry(2, 1, 1);
+		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 0.4, 0.1);
 		var body = new Physijs.BoxMesh(geometry, material, 0.5);
+		var normals = new THREE.FaceNormalsHelper(body, 2, 0x00ff00, 1);
 
 		body.geometry.dynamic = true;
 		body.castShadow = true;
 
 		body.position.x = 0;
-		body.position.y = 2;
+		body.position.y = 0;
 		body.position.z = 0;
 
+		body.name = 'body';
+
+		normals.update();
+
+		module.scene.add(normals);
 		module.scene.add(body);
+
+		module.monster.normals.push(normals);
 		module.monster.limbs.push(body);
 
 		// LEG 1
 
-		var geometry = new THREE.BoxGeometry(1, 1, 1);
-		var material = Physijs.createMaterial(new THREE.MeshNormalMaterial(), 0.4, 0.1);
+		var geometry = new THREE.BoxGeometry(2, 1, 1);
+		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 0.4, 0.1);
 		var leg1 = new Physijs.BoxMesh(geometry, material, 0.5);
+		var normals = new THREE.FaceNormalsHelper(leg1, 2, 0x00ff00, 1);
 
 		leg1.geometry.dynamic = true;
 		leg1.castShadow = true;
 
 		leg1.position.x = 1;
-		leg1.position.y = 2;
-		leg1.position.z = 0;
+		leg1.position.y = -0.5;
+		leg1.position.z = 1;
 
+		leg1.name = 'leg1';
+
+		normals.update();
+
+		module.scene.add(normals);
 		module.scene.add(leg1);
+
+		module.monster.normals.push(normals);
 		module.monster.limbs.push(leg1);
 
 		// CONSTRAINT 1
 
-		// var constraint1 = new Physijs.HingeConstraint(body, leg1, new THREE.Vector3(0, 2, -0.75), new THREE.Vector3(0, 0, 1));
+		var constraint1 = new Physijs.HingeConstraint(body, leg1, new THREE.Vector3(0.5, 0, 0.5), new THREE.Vector3(0, 0, 1));
 
-		// constraint1.lastPosition = 90;
+		constraint1.lastPosition = 90;
 
-		// module.scene.addConstraint(constraint1);
-		// module.monster.constraints.push(constraint1);
+		module.scene.addConstraint(constraint1);
+		module.monster.constraints.push(constraint1);
 
-		// constraint1.setLimits(-90*Math.PI/180, 90*Math.PI/180, 1, 0);
+		constraint1.setLimits(-90*Math.PI/180, 90*Math.PI/180, 1, 0);
 
 		// LEG 2
 
 		var geometry = new THREE.BoxGeometry(1, 1, 1);
-		var material = Physijs.createMaterial(new THREE.MeshNormalMaterial(), 0.4, 0.1);
+		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 0.4, 0.1);
 		var leg2 = new Physijs.BoxMesh(geometry, material, 0.5);
+		var normals = new THREE.FaceNormalsHelper(leg2, 2, 0x00ff00, 1);
 
 		leg2.geometry.dynamic = true;
 		leg2.castShadow = true;
 
-		leg2.position.x = 0;
-		leg2.position.y = 2;
-		leg2.position.z = -1;
+		leg2.position.x = 1.5;
+		leg2.position.y = -0.25;
+		leg2.position.z = -0.5;
 
+		leg2.name = 'leg2';
+
+		normals.update();
+
+		module.scene.add(normals);
 		module.scene.add(leg2);
+
+		module.monster.normals.push(normals);
 		module.monster.limbs.push(leg2);
 
 		// CONSTRAINT 2
 
-		// var constraint2 = new Physijs.HingeConstraint(leg1, leg2, new THREE.Vector3(0.75, 2, -1.25), new THREE.Vector3(1, 0, 0));
+		var constraint2 = new Physijs.HingeConstraint(leg1, leg2, new THREE.Vector3(1, -0.25, -0.5), new THREE.Vector3(1, 0, 0));
 
-		// constraint2.lastPosition = 90;
+		constraint2.lastPosition = 90;
 
-		// module.scene.addConstraint(constraint2);
-		// module.monster.constraints.push(constraint2);
+		module.scene.addConstraint(constraint2);
+		module.monster.constraints.push(constraint2);
 
-		// constraint2.setLimits(-90*Math.PI/180, 90*Math.PI/180, 1, 0);
+		constraint2.setLimits(-90*Math.PI/180, 90*Math.PI/180, 1, 0);
+
+		// LEG 3
+
+		var geometry = new THREE.BoxGeometry(1, 1, 1);
+		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 0.4, 0.1);
+		var leg3 = new Physijs.BoxMesh(geometry, material, 0.5);
+		var normals = new THREE.FaceNormalsHelper(leg3, 2, 0x00ff00, 1);
+
+		leg3.geometry.dynamic = true;
+		leg3.castShadow = true;
+
+		leg3.position.x = -1;
+		leg3.position.y = -0.25;
+		leg3.position.z = -1;
+
+		leg3.name = 'leg3';
+
+		normals.update();
+
+		module.scene.add(normals);
+		module.scene.add(leg3);
+
+		module.monster.normals.push(normals);
+		module.monster.limbs.push(leg3);
+
+		// CONSTRAINT 3
+
+		var constraint3 = new Physijs.HingeConstraint(body, leg3, new THREE.Vector3(-1, -0.25, -0.5), new THREE.Vector3(0, 0, 1));
+
+		constraint3.lastPosition = 90;
+
+		module.scene.addConstraint(constraint3);
+		module.monster.constraints.push(constraint3);
+
+		constraint3.setLimits(-90*Math.PI/180, 90*Math.PI/180, 1, 0);
+
+		// LEG 4
+
+		var geometry = new THREE.BoxGeometry(1, 2, 1);
+		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 0.4, 0.1);
+		var leg4 = new Physijs.BoxMesh(geometry, material, 0.5);
+		var normals = new THREE.FaceNormalsHelper(leg4, 2, 0x00ff00, 1);
+
+		leg4.geometry.dynamic = true;
+		leg4.castShadow = true;
+
+		leg4.position.x = -2;
+		leg4.position.y = 0.75;
+		leg4.position.z = -1.25;
+
+		leg4.name = 'leg4';
+
+		normals.update();
+
+		module.scene.add(normals);
+		module.scene.add(leg4);
+
+		module.monster.normals.push(normals);
+		module.monster.limbs.push(leg4);
+
+		// CONSTRAINT 4
+
+		var constraint4 = new Physijs.HingeConstraint(leg3, leg4, new THREE.Vector3(-1.5, 0.25, -1.25), new THREE.Vector3(1, 0, 0));
+
+		constraint4.lastPosition = 90;
+
+		module.scene.addConstraint(constraint4);
+		module.monster.constraints.push(constraint4);
+
+		constraint4.setLimits(-90*Math.PI/180, 90*Math.PI/180, 1, 0);
 
 	}
 
