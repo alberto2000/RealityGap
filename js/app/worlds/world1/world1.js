@@ -31,7 +31,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		module.setControls();
 
 		// module.makeBackdrop();
-		// module.makeGround();
+		module.makeGround();
 		// module.makeMonster();
 
 		// window.world = module;
