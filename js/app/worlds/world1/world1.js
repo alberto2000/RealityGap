@@ -10,8 +10,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		floor: {},
 		monster: {
 			limbs: [],
-			constraints: [],
-			normals: []
+			constraints: []
 		},
 		socket: {},
 		cameraRotation: false
@@ -91,14 +90,6 @@ define(['functions', 'socketio'], function(Functions, io) {
 			module.camera.position.x = Math.cos(timer) * cameraXdistance;
 			module.camera.position.z = Math.sin(timer) * cameraZdistance;
 			module.camera.lookAt(module.monster.limbs[0]);
-		}
-
-		if (module.monster.normals.length > 0) {
-
-			for (var i = 0; i < module.monster.normals.length; i++) {
-				module.monster.normals[i].update();
-			}
-
 		}
 
 		requestAnimationFrame(module.render);
@@ -227,7 +218,6 @@ define(['functions', 'socketio'], function(Functions, io) {
 		var geometry = new THREE.BoxGeometry(2, 1, 1);
 		var material = Physijs.createMaterial(new THREE.MeshNormalMaterial(), 1, 0.1);
 		var body = new Physijs.BoxMesh(geometry, material, 0.5);
-		var normals = new THREE.FaceNormalsHelper(body, 2, 0x00ff00, 1);
 
 		body.geometry.dynamic = true;
 		body.castShadow = true;
@@ -238,12 +228,8 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		body.name = 'body';
 
-		normals.update();
-
-		// module.scene.add(normals);
 		module.scene.add(body);
 
-		module.monster.normals.push(normals);
 		module.monster.limbs.push(body);
 
 		// LEG 1
@@ -251,7 +237,6 @@ define(['functions', 'socketio'], function(Functions, io) {
 		var geometry = new THREE.BoxGeometry(2, 1, 1);
 		var material = Physijs.createMaterial(new THREE.MeshNormalMaterial(), 1, 0.1);
 		var leg1 = new Physijs.BoxMesh(geometry, material, 0.5);
-		var normals = new THREE.FaceNormalsHelper(leg1, 2, 0x00ff00, 1);
 
 		leg1.geometry.dynamic = true;
 		leg1.castShadow = true;
@@ -262,17 +247,13 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		leg1.name = 'leg1';
 
-		normals.update();
-
-		// module.scene.add(normals);
 		module.scene.add(leg1);
 
-		module.monster.normals.push(normals);
 		module.monster.limbs.push(leg1);
 
 		// CONSTRAINT 1
 
-		var constraint1 = new Physijs.HingeConstraint(body, leg1, new THREE.Vector3(0.5, 0, 0.5), new THREE.Vector3(0, 0, 1));
+		var constraint1 = new Physijs.HingeConstraint(body, leg1, new THREE.Vector3(0, 0, 0.5), new THREE.Vector3(0, 0, 1));
 
 		constraint1.lastPosition = 90;
 
@@ -286,7 +267,6 @@ define(['functions', 'socketio'], function(Functions, io) {
 		var geometry = new THREE.BoxGeometry(1, 1, 1);
 		var material = Physijs.createMaterial(new THREE.MeshNormalMaterial(), 1, 0.1);
 		var leg2 = new Physijs.BoxMesh(geometry, material, 0.5);
-		var normals = new THREE.FaceNormalsHelper(leg2, 2, 0x00ff00, 1);
 
 		leg2.geometry.dynamic = true;
 		leg2.castShadow = true;
@@ -297,17 +277,13 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		leg2.name = 'leg2';
 
-		normals.update();
-
-		// module.scene.add(normals);
 		module.scene.add(leg2);
 
-		module.monster.normals.push(normals);
 		module.monster.limbs.push(leg2);
 
 		// CONSTRAINT 2
 
-		var constraint2 = new Physijs.HingeConstraint(leg1, leg2, new THREE.Vector3(1, -0.25, -0.5), new THREE.Vector3(1, 0, 0));
+		var constraint2 = new Physijs.HingeConstraint(body, leg2, new THREE.Vector3(1, -0.25, -0.5), new THREE.Vector3(1, 0, 0));
 
 		constraint2.lastPosition = 90;
 
@@ -315,13 +291,13 @@ define(['functions', 'socketio'], function(Functions, io) {
 		module.monster.constraints.push(constraint2);
 
 		constraint2.setLimits(-90*Math.PI/180, 90*Math.PI/180, 1, 0);
+		constraint2.enableAngularMotor(1, 10);
 
 		// LEG 3
 
 		var geometry = new THREE.BoxGeometry(1, 1, 1);
 		var material = Physijs.createMaterial(new THREE.MeshNormalMaterial(), 1, 0.1);
 		var leg3 = new Physijs.BoxMesh(geometry, material, 0.5);
-		var normals = new THREE.FaceNormalsHelper(leg3, 2, 0x00ff00, 1);
 
 		leg3.geometry.dynamic = true;
 		leg3.castShadow = true;
@@ -332,12 +308,8 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		leg3.name = 'leg3';
 
-		normals.update();
-
-		// module.scene.add(normals);
 		module.scene.add(leg3);
 
-		module.monster.normals.push(normals);
 		module.monster.limbs.push(leg3);
 
 		// CONSTRAINT 3
@@ -356,7 +328,6 @@ define(['functions', 'socketio'], function(Functions, io) {
 		var geometry = new THREE.BoxGeometry(1, 2, 1);
 		var material = Physijs.createMaterial(new THREE.MeshNormalMaterial(), 1, 0.1);
 		var leg4 = new Physijs.BoxMesh(geometry, material, 0.5);
-		var normals = new THREE.FaceNormalsHelper(leg4, 2, 0x00ff00, 1);
 
 		leg4.geometry.dynamic = true;
 		leg4.castShadow = true;
@@ -367,12 +338,8 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		leg4.name = 'leg4';
 
-		normals.update();
-
-		// module.scene.add(normals);
 		module.scene.add(leg4);
 
-		module.monster.normals.push(normals);
 		module.monster.limbs.push(leg4);
 
 		// CONSTRAINT 4
