@@ -32,6 +32,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		// module.makeBackdrop();
 		module.makeGround();
+		module.makeFabric();
 		module.makeMonster();
 
 		window.world = module;
@@ -85,12 +86,14 @@ define(['functions', 'socketio'], function(Functions, io) {
 		module.controls.update();
 
 		if (module.cameraRotation) {
+
 			var timer = Date.now() * 0.0001;
-			var cameraXdistance = 12;
-			var cameraZdistance = 12;
-			module.camera.position.x = Math.cos(timer) * cameraXdistance;
-			module.camera.position.z = Math.sin(timer) * cameraZdistance;
-			module.camera.lookAt(module.monster.limbs[0]);
+
+			module.camera.position.x = Math.cos(timer) * 200;
+			module.camera.position.y = 100;
+			module.camera.position.z = Math.sin(timer) * 200;
+			module.camera.lookAt(new THREE.Vector3(0, -2, 0));
+
 		}
 
 		requestAnimationFrame(module.render);
@@ -209,6 +212,34 @@ define(['functions', 'socketio'], function(Functions, io) {
 			module.scene.add(normals);
 
 		});
+
+	}
+
+	module.makeFabric = function() {
+
+		var jsonLoader = new THREE.JSONLoader();
+
+		jsonLoader.load('elements/fabric.json', function(geometry) {
+
+			geometry.mergeVertices();
+
+			var material = Physijs.createMaterial(new THREE.MeshNormalMaterial({
+				
+			}), 1, 0.6);
+
+			var fabric = new Physijs.BoxMesh(geometry, material, 0);
+
+			fabric.geometry.dynamic = true;
+			fabric.receiveShadow = true;
+
+			fabric.position.y = -3.75;
+
+			module.fabric = fabric;
+
+			module.scene.add(fabric);
+
+		});
+
 
 	}
 
