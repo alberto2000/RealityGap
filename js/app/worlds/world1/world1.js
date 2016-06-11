@@ -94,7 +94,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 	module.setScene = function() {
 
-		module.scene = new Physijs.Scene;
+		module.scene = new Physijs.Scene();
 		module.scene.setGravity(new THREE.Vector3(0, -5, -0.5));
 		// module.scene.setGravity(new THREE.Vector3(0, 0, 0));
 
