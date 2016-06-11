@@ -13,7 +13,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 			constraints: []
 		},
 		socket: {},
-		cameraRotation: false
+		cameraRotation: true
 	};
 
 	module.init = function() {
@@ -107,7 +107,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		renderer.shadowMap.enabled = true;
 		renderer.shadowMap.type = THREE.PCFShadowMap;
 		renderer.shadowMapAutoUpdate = true;
-		renderer.setClearColor(0xbcbcbc, 1);
+		renderer.setClearColor(0x000000, 1);
 
 		renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
 		renderer.setSize(window.innerWidth, window.innerHeight);
@@ -201,9 +201,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		// BODY
 
 		var geometry = new THREE.BoxGeometry(1, 1, 1);
-		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
-			color: 0xf2f2f2
-		}), 0.4, 0.1);
+		var material = Physijs.createMaterial(new THREE.MeshNormalMaterial(), 0.4, 0.1);
 		var body = new Physijs.BoxMesh(geometry, material, 0.5);
 
 		body.geometry.dynamic = true;
@@ -219,9 +217,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		// LEG 1
 
 		var geometry = new THREE.BoxGeometry(1, 1, 1);
-		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
-			color: 0xf2f2f2
-		}), 0.4, 0.1);
+		var material = Physijs.createMaterial(new THREE.MeshNormalMaterial(), 0.4, 0.1);
 		var leg1 = new Physijs.BoxMesh(geometry, material, 0.5);
 
 		leg1.geometry.dynamic = true;
@@ -248,9 +244,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		// LEG 2
 
 		var geometry = new THREE.BoxGeometry(1, 1, 1);
-		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
-			color: 0xf2f2f2
-		}), 0.4, 0.1);
+		var material = Physijs.createMaterial(new THREE.MeshNormalMaterial(), 0.4, 0.1);
 		var leg2 = new Physijs.BoxMesh(geometry, material, 0.5);
 
 		leg2.geometry.dynamic = true;
