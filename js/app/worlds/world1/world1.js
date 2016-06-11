@@ -32,13 +32,13 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		// module.makeBackdrop();
 		module.makeGround();
-		// module.makeMonster();
+		module.makeMonster();
 
 		window.world = module;
 
 		requestAnimationFrame(module.render);
 
-		// module.socketInit();
+		module.socketInit();
 
 	}
 
@@ -174,6 +174,8 @@ define(['functions', 'socketio'], function(Functions, io) {
 		var jsonLoader = new THREE.JSONLoader();
 
 		jsonLoader.load('elements/landscape.json', function(geometry) {
+
+			geometry.mergeVertices();
 
 			var material = Physijs.createMaterial(new THREE.MeshNormalMaterial({
 				
