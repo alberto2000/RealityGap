@@ -32,7 +32,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		module.setControls();
 
 		// module.makeBackdrop();
-		// module.makeGround();
+		module.makeGround();
 		module.makeMonster();
 
 		window.world = module;
@@ -108,8 +108,8 @@ define(['functions', 'socketio'], function(Functions, io) {
 	module.setScene = function() {
 
 		module.scene = new Physijs.Scene();
-		// module.scene.setGravity(new THREE.Vector3(0, -5, -0.5));
-		module.scene.setGravity(new THREE.Vector3(0, 0, 0));
+		module.scene.setGravity(new THREE.Vector3(0, -5, -0.5));
+		// module.scene.setGravity(new THREE.Vector3(0, 0, 0));
 
 	}
 
@@ -201,11 +201,13 @@ define(['functions', 'socketio'], function(Functions, io) {
 				
 			}), 0.4, 0.6);
 
-			var floor = new Physijs.ConcaveMesh(geometry, material, 0);
+			var floor = new Physijs.BoxMesh(geometry, material, 0);
 			var normals = new THREE.FaceNormalsHelper(floor, 2, 0x00ff00, 1);
 
 			floor.geometry.dynamic = true;
 			floor.receiveShadow = true;
+
+			floor.position.y = -2;
 
 			module.floor = floor;
 
