@@ -176,7 +176,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		jsonLoader.load('elements/landscape.json', function(geometry) {
 
 			var material = Physijs.createMaterial(new THREE.MeshPhongMaterial({
-				shading: THREE.FlatShading
+				// shading: THREE.FlatShading
 			}), 0.4, 0.6);
 
 			var floor = new Physijs.BoxMesh(geometry, material, 0);
