@@ -63,13 +63,14 @@ define(['functions', 'socketio'], function(Functions, io) {
 			var motor = module.monster.constraints[motorId];
 			var newPosition = data.newPosition;
 			var newSpeed = data.newSpeed;
+			var calcSpeed = newSpeed / 10;
 			var pre = 1;
 
 			if (newPosition < motor.lastPosition) pre = -1;
 
 			log("motor" + motorId + " to " + newPosition);
 
-			motor.enableAngularMotor(pre * 0.5, 10);
+			motor.enableAngularMotor(pre * calcSpeed, 10);
 
 			motor.lastPosition = newPosition;
 
