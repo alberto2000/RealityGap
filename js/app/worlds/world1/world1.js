@@ -25,12 +25,12 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		module.setScene();
 		module.setRenderer();
-		// module.setCamera();
-		// module.setLight();
+		module.setCamera();
+		module.setLight();
 
-		// module.setControls();
+		module.setControls();
 
-		// // module.makeBackdrop();
+		// module.makeBackdrop();
 		// module.makeGround();
 		// module.makeMonster();
 
