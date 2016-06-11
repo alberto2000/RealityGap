@@ -102,10 +102,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 	module.setRenderer = function() {
 
-		var renderer = new THREE.WebGLRenderer({
-			antialias: true,
-			alpha: true
-		});
+		var renderer = new THREE.WebGLRenderer();
 
 		renderer.shadowMap.enabled = true;
 		renderer.shadowMap.type = THREE.PCFShadowMap;
