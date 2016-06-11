@@ -25,20 +25,20 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		module.setScene();
 		module.setRenderer();
-		module.setCamera();
-		module.setLight();
+		// module.setCamera();
+		// module.setLight();
 
-		module.setControls();
+		// module.setControls();
 
-		// module.makeBackdrop();
-		module.makeGround();
-		module.makeMonster();
+		// // module.makeBackdrop();
+		// module.makeGround();
+		// module.makeMonster();
 
-		window.world = module;
+		// window.world = module;
 
-		requestAnimationFrame(module.render);
+		// requestAnimationFrame(module.render);
 
-		module.socketInit();
+		// module.socketInit();
 
 	}
 
