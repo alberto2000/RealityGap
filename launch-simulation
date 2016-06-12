@@ -30,4 +30,4 @@ echo "Launching $ADDR simulation!"
 export DISPLAY=:0
 
 unclutter -idle 0.1 -root
-chromium-browser --kiosk http://localhost/#world1
+chromium-browser --kiosk $ADDR
