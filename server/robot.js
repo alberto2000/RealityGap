@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var colors = require('colors');
-require('pigpio').configureClock(2, 0);
+require('pigpio').configureClock(1, 1);
 var Gpio = require('pigpio').Gpio;
 var easings = require('./easings.js');
 
