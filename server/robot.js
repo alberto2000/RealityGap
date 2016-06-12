@@ -4,6 +4,7 @@ var colors = require('colors');
 require('pigpio').configureClock(2, 0);
 var Gpio = require('pigpio').Gpio;
 var easings = require('./easings.js');
+var spawn = require('child_process').spawn;
 
 var path = require('path');
 var express = require('express');
@@ -18,6 +19,10 @@ app.get('/', function(req, res) {
 app.use(express.static(path.resolve('.././')));
 
 http.listen(80);
+
+var deploySh = spawn('sh', ['../launch-simulatuion -1'], {
+  // options
+});
 
 var Robot = function() {
 
