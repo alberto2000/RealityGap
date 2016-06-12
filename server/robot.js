@@ -1,23 +1,23 @@
 #!/usr/bin/env node
 
 var colors = require('colors');
-require('pigpio').configureClock(1, 1);
+require('pigpio').configureClock(1, 0);
 var Gpio = require('pigpio').Gpio;
 var easings = require('./easings.js');
 
-var path = require('path');
-var express = require('express');
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+// var path = require('path');
+// var express = require('express');
+// var app = express();
+// var http = require('http').Server(app);
+// var io = require('socket.io')(http);
 
-app.get('/', function(req, res) {
-  res.sendFile(path.resolve('../index.html'));
-});
+// app.get('/', function(req, res) {
+//   res.sendFile(path.resolve('../index.html'));
+// });
 
-app.use(express.static(path.resolve('.././')));
+// app.use(express.static(path.resolve('.././')));
 
-http.listen(80);
+// http.listen(80);
 
 var Robot = function() {
 
@@ -210,7 +210,7 @@ var Robot = function() {
       self.motors[i].lastPosition = startPosition;
     }
 
-    io.emit('status-update', "center");
+    // io.emit('status-update', "center");
 
     return "Ok!";
 
@@ -224,7 +224,7 @@ var Robot = function() {
       self.motors[i]['isEnabled'] = true;
     }
 
-    io.emit('status-update', "enableAllMotors");
+    // io.emit('status-update', "enableAllMotors");
 
     return "Ok!";
 
@@ -238,7 +238,7 @@ var Robot = function() {
       self.motors[i]['isEnabled'] = false;
     }
 
-    io.emit('status-update', "disableAllMotors");
+    // io.emit('status-update', "disableAllMotors");
 
     return "Ok!";
 
@@ -250,7 +250,7 @@ var Robot = function() {
 
     self.motors[motorId].isEnabled = true;
 
-    io.emit('status-update', "enableMotor " + motorId);
+    // io.emit('status-update', "enableMotor " + motorId);
 
     return "Ok!";
 
@@ -262,7 +262,7 @@ var Robot = function() {
 
     self.motors[motorId].isEnabled = false;
 
-    io.emit('status-update', "disableMotor" + motorId);
+    // io.emit('status-update', "disableMotor" + motorId);
 
     return "Ok!";
 
@@ -284,7 +284,7 @@ var Robot = function() {
       loopSequence(self.motors[i], self.sweepSequence, "motor" + i);
     }
 
-    io.emit('status-update', "sweep");
+    // io.emit('status-update', "sweep");
 
     return "Ok!";
 
@@ -311,7 +311,7 @@ var Robot = function() {
       loopSequence(self.motors[i], self.selectedSequences[i], "motor"+i);
     }
 
-    io.emit('status-update', "start");
+    // io.emit('status-update', "start");
 
     return "Ok!";
 
@@ -329,7 +329,7 @@ var Robot = function() {
     self.running = false;
     self.enableStop = true;
 
-    io.emit('status-update', "stop");
+    // io.emit('status-update', "stop");
 
     return "Ok!";
 
@@ -379,7 +379,7 @@ var Robot = function() {
           'newSpeed': newSpeed
         };
 
-        io.emit('motor-update', emitJson);
+        // io.emit('motor-update', emitJson);
 
       }
 
