@@ -137,7 +137,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		module.camera = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, -500, 1000);
 		
 		module.camera.position.x = 2;
-		module.camera.position.y = 2;
+		module.camera.position.y = 0;
 		module.camera.position.z = 2;
 
 		module.camera.zoom = 45;
