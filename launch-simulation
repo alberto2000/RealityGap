@@ -29,5 +29,5 @@ echo "Launching $ADDR simulation!"
 
 export DISPLAY=:0
 
-unclutter -idle 0.1 -root >/dev/null&
-chromium-browser --kiosk $ADDR >/dev/null&
+chromium-browser --noerrdialogs --disable-session-crashed-bubble --disable-infobars --kiosk $ADDR
+unclutter -idle 0.1 -root
