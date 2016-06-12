@@ -23,8 +23,8 @@ art.font('The Reality Gap', 'Doom', function(rendered) {
 
 	console.log("\n–––");
 	console.log(":: T H E R E A L I T Y G A P ::".rainbow.bold);
-	console.log("v0.1".bold.grey);
-	console.log("London, May 2016".grey);
+	console.log("v0.5".bold.grey);
+	console.log("London, June 2016".grey);
 
 	Robot.enableAllMotors();
 

@@ -146,6 +146,8 @@ define(['functions', 'socketio'], function(Functions, io) {
 
         module.scene.add(module.camera);
 
+        module.camera.lookAt(new THREE.Vector3(0, -2, 0));
+
 		window.addEventListener('resize', function () {
 			module.camera.aspect = window.innerWidth / window.innerHeight;
 			module.camera.updateProjectionMatrix();
