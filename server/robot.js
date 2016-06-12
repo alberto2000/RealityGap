@@ -20,7 +20,7 @@ app.use(express.static(path.resolve('.././')));
 
 http.listen(80);
 
-child = exec('../launch-simulation -1',
+child = exec('.././launch-simulation -1',
   function (error, stdout, stderr) {
     console.log('stdout: ' + stdout);
     console.log('stderr: ' + stderr);
