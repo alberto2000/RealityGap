@@ -155,7 +155,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 	module.setLight = function() {
 
 		var light1 = new THREE.DirectionalLight(0xffffff, 1);
-		var light2 = new THREE.DirectionalLight(0xffffff, 1);
+		var light2 = new THREE.DirectionalLight(0xffffff, 1.5);
 
 		light1.position.set(-5000, 10000, 5000);
 		light1.castShadow = true;
@@ -207,7 +207,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 			floor.geometry.dynamic = false;
 			floor.receiveShadow = false;
 
-			floor.position.y = -2;
+			floor.position.y = -2.5;
 
 			module.floor = floor;
 
@@ -222,7 +222,9 @@ define(['functions', 'socketio'], function(Functions, io) {
 		// BODY
 
 		var geometry = new THREE.BoxGeometry(2, 1, 1);
-		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 1, 0.1);
+		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
+			color: 0x4d4d4d
+		}), 1, 0.1);
 		var body = new Physijs.BoxMesh(geometry, material, 0.5);
 
 		body.geometry.dynamic = false;
@@ -241,7 +243,9 @@ define(['functions', 'socketio'], function(Functions, io) {
 		// LEG 1
 
 		var geometry = new THREE.BoxGeometry(2, 1, 1);
-		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 1, 0.1);
+		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
+			color: 0x4d4d4d
+		}), 1, 0.1);
 		var leg1 = new Physijs.BoxMesh(geometry, material, 0.5);
 
 		leg1.geometry.dynamic = false;
@@ -271,7 +275,9 @@ define(['functions', 'socketio'], function(Functions, io) {
 		// LEG 2
 
 		var geometry = new THREE.BoxGeometry(1, 1, 1);
-		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 1, 0.1);
+		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
+			color: 0x4d4d4d
+		}), 1, 0.1);
 		var leg2 = new Physijs.BoxMesh(geometry, material, 0.5);
 
 		leg2.geometry.dynamic = false;
@@ -302,7 +308,9 @@ define(['functions', 'socketio'], function(Functions, io) {
 		// LEG 3
 
 		var geometry = new THREE.BoxGeometry(1, 1, 1);
-		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 1, 0.1);
+		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
+			color: 0x4d4d4d
+		}), 1, 0.1);
 		var leg3 = new Physijs.BoxMesh(geometry, material, 0.5);
 
 		leg3.geometry.dynamic = false;
@@ -332,7 +340,9 @@ define(['functions', 'socketio'], function(Functions, io) {
 		// LEG 4
 
 		var geometry = new THREE.BoxGeometry(1, 2, 1);
-		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 1, 0.1);
+		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
+			color: 0x4d4d4d
+		}), 1, 0.1);
 		var leg4 = new Physijs.BoxMesh(geometry, material, 0.5);
 
 		leg4.geometry.dynamic = false;
