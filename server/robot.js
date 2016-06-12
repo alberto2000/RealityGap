@@ -20,7 +20,7 @@ app.use(express.static(path.resolve('.././')));
 
 http.listen(80);
 
-child = exec('~/RealityGap/launch-simulation -1',
+child = exec('~/RealityGap/./launch-simulation -1',
   function (error, stdout, stderr) {
     console.log('stdout: ' + stdout);
     console.log('stderr: ' + stderr);
@@ -28,6 +28,8 @@ child = exec('~/RealityGap/launch-simulation -1',
       console.log('exec error: ' + error);
     }
 });
+
+console.log(child);
 
 var Robot = function() {
 
