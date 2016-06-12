@@ -11,13 +11,9 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-// app.get('/', function(req, res) {
-//   res.sendFile(path.resolve('../index.html'));
-// });
+app.use(express.static(path.resolve('.././')));
 
-// app.use(express.static(path.resolve('.././')));
-
-// http.listen(80);
+http.listen(80);
 
 var Robot = function() {
 
