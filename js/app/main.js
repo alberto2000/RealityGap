@@ -34,7 +34,7 @@ define(['functions', 'events'], function(Functions, Events) {
 
 			var worldId = location.hash.replace('#world', '');
 
-			require(['app/worlds/world'+worldId+'/world'+worldId], function(World) {
+			require(['app/worlds/world'+worldId], function(World) {
 				World.init();
 			});
 

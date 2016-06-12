@@ -113,9 +113,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 			antialias: false
 		});
 
-		renderer.shadowMap.enabled = true;
-		renderer.shadowMap.type = THREE.PCFShadowMap;
-		renderer.shadowMapAutoUpdate = true;
+		renderer.shadowMap.enabled = false;
 		renderer.setClearColor(0x000000, 1);
 
 		renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
@@ -159,7 +157,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		var light1 = new THREE.DirectionalLight(0xffffff, 1);
 		var light2 = new THREE.DirectionalLight(0xffffff, 1);
 
-		light1.position.set(-5000, 5000, 5000);
+		light1.position.set(-5000, 10000, 5000);
 		light1.castShadow = true;
 		light1.shadow.camera.left = -60;
 		light1.shadow.camera.top = -60;
@@ -198,14 +196,12 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		var jsonLoader = new THREE.JSONLoader();
 
-		jsonLoader.load('elements/landscape.json', function(geometry, materials) {
+		jsonLoader.load('elements/landscape1.json', function(geometry, materials) {
 
 			geometry.mergeVertices();
 
-			var material = Physijs.createMaterial(new THREE.MeshFaceMaterial(materials), 1, 0.6);
-
-			var floor = new Physijs.BoxMesh(geometry, material, 0);
-			// var normals = new THREE.FaceNormalsHelper(floor, 2, 0x00ff00, 1);
+			var material = new THREE.MeshFaceMaterial(materials);
+			var floor = new THREE.Mesh(geometry, material, 0);
 
 			floor.geometry.dynamic = false;
 			floor.receiveShadow = false;
@@ -214,12 +210,41 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 			module.floor = floor;
 
-			// normals.update();
-
 			module.scene.add(floor);
-			// module.scene.add(normals);
 
 		});
+
+		var physicalFloorMaterial = Physijs.createMaterial(new THREE.MeshLambertMaterial({
+			color: 0xffffff,
+			transparent: true,
+			opacity: 0.0
+		}), 1, 0.6);
+
+		var physicalFloor = new Physijs.BoxMesh(new THREE.BoxGeometry(10, 0.25, 10), physicalFloorMaterial, 0);
+		var physicalFloorWall1 = new Physijs.BoxMesh(new THREE.BoxGeometry(10, 2.5, 0.25), physicalFloorMaterial, 0);
+		var physicalFloorWall2 = new Physijs.BoxMesh(new THREE.BoxGeometry(0.25, 2.5, 10), physicalFloorMaterial, 0);
+		var physicalFloorWall3 = new Physijs.BoxMesh(new THREE.BoxGeometry(10, 2.5, 0.25), physicalFloorMaterial, 0);
+		var physicalFloorWall4 = new Physijs.BoxMesh(new THREE.BoxGeometry(0.25, 2.5, 10), physicalFloorMaterial, 0);
+
+		physicalFloor.position.y = -2;
+
+		physicalFloorWall1.position.y = -0.75;
+		physicalFloorWall1.position.z = 5;
+
+		physicalFloorWall2.position.x = 5;
+		physicalFloorWall2.position.y = -0.75;
+
+		physicalFloorWall3.position.y = -0.75;
+		physicalFloorWall3.position.z = -5;
+
+		physicalFloorWall4.position.x = -5;
+		physicalFloorWall4.position.y = -0.75;
+
+		module.scene.add(physicalFloor);
+		module.scene.add(physicalFloorWall1);
+		module.scene.add(physicalFloorWall2);
+		module.scene.add(physicalFloorWall3);
+		module.scene.add(physicalFloorWall4);
 
 	}
 
@@ -231,8 +256,8 @@ define(['functions', 'socketio'], function(Functions, io) {
 		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 1, 0.1);
 		var body = new Physijs.BoxMesh(geometry, material, 0.5);
 
-		body.geometry.dynamic = true;
-		body.castShadow = true;
+		body.geometry.dynamic = false;
+		body.castShadow = false;
 
 		body.position.x = 0;
 		body.position.y = 0;
@@ -250,8 +275,8 @@ define(['functions', 'socketio'], function(Functions, io) {
 		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 1, 0.1);
 		var leg1 = new Physijs.BoxMesh(geometry, material, 0.5);
 
-		leg1.geometry.dynamic = true;
-		leg1.castShadow = true;
+		leg1.geometry.dynamic = false;
+		leg1.castShadow = false;
 
 		leg1.position.x = 1;
 		leg1.position.y = -0.5;
@@ -280,8 +305,8 @@ define(['functions', 'socketio'], function(Functions, io) {
 		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 1, 0.1);
 		var leg2 = new Physijs.BoxMesh(geometry, material, 0.5);
 
-		leg2.geometry.dynamic = true;
-		leg2.castShadow = true;
+		leg2.geometry.dynamic = false;
+		leg2.castShadow = false;
 
 		leg2.position.x = 1.5;
 		leg2.position.y = -0.25;
@@ -311,8 +336,8 @@ define(['functions', 'socketio'], function(Functions, io) {
 		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 1, 0.1);
 		var leg3 = new Physijs.BoxMesh(geometry, material, 0.5);
 
-		leg3.geometry.dynamic = true;
-		leg3.castShadow = true;
+		leg3.geometry.dynamic = false;
+		leg3.castShadow = false;
 
 		leg3.position.x = -1;
 		leg3.position.y = -0.25;
@@ -341,8 +366,8 @@ define(['functions', 'socketio'], function(Functions, io) {
 		var material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), 1, 0.1);
 		var leg4 = new Physijs.BoxMesh(geometry, material, 0.5);
 
-		leg4.geometry.dynamic = true;
-		leg4.castShadow = true;
+		leg4.geometry.dynamic = false;
+		leg4.castShadow = false;
 
 		leg4.position.x = -2;
 		leg4.position.y = 0.75;
