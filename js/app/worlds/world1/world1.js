@@ -194,7 +194,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 			}), 1, 0.6);
 
 			var floor = new Physijs.BoxMesh(geometry, material, 0);
-			var normals = new THREE.FaceNormalsHelper(floor, 2, 0x00ff00, 1);
+			// var normals = new THREE.FaceNormalsHelper(floor, 2, 0x00ff00, 1);
 
 			floor.geometry.dynamic = false;
 			floor.receiveShadow = false;
@@ -203,10 +203,10 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 			module.floor = floor;
 
-			normals.update();
+			// normals.update();
 
 			module.scene.add(floor);
-			module.scene.add(normals);
+			// module.scene.add(normals);
 
 		});
 
