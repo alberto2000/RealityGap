@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 
+// ROBOT #1
+// "Velvet World"
+// Soft & Smooth
+
 var colors = require('colors');
-require('pigpio').configureClock(2, 0);
+require('pigpio').configureClock(1, 0); 
 var Gpio = require('pigpio').Gpio;
 var easings = require('./easings.js');
 
@@ -29,14 +33,11 @@ var Robot = function() {
   self.enableStop = true;
   self.running = false;
   self.motors = [];
-  self.selectedSequences = [];
-  self.velvetSequences = [];
-  self.natureSequences = [];
-  self.ballpitSequences = [];
+  self.moveSequences = [];
 
   // available GPIO for servos:
   // 4, 17, 27, 22, 5, 6, 13, 19
-  createMotors([4, 17, 27, 22]);
+  createMotors([4, 17, 27, 22, 5, 6]);
   createSequences();
 
   function createMotors(motorPins) {
@@ -79,8 +80,7 @@ var Robot = function() {
       [180, 25]
     ];
 
-    // soft & smooth, slow
-    self.velvetSequences = [
+    self.moveSequences = [
       [
         [178, 11],
         [85, 25],
@@ -105,97 +105,22 @@ var Robot = function() {
         [87, 8],
         [178, 1],
         [2, 22]
+      ],
+      [
+        [87, 2],
+        [160, 17],
+        [20, 4],
+        [140, 5]
+      ],
+      [
+        [176, 22],
+        [160, 12],
+        [20, 10],
+        [140, 7],
+        [10, 4],
+        [120, 12]
       ]
     ];
-
-    // meandering, crawling, ...
-    self.natureSequences = [
-      [
-        [178, 11],
-        [85, 25],
-        [162, 7],
-        [10, 18]
-      ],
-      [
-        [74, 18],
-        [5, 10],
-        [42, 22],
-        [178, 4],
-        [86, 12]
-      ],
-      [
-        [100, 22],
-        [47, 18],
-        [162, 12],
-        [5, 4]
-      ],
-      [
-        [103, 12],
-        [87, 8],
-        [178, 1],
-        [2, 22]
-      ]
-    ];
-
-    // quick, sudden movements, smash some balls around
-    self.ballpitSequences = [
-      [
-        [178, 11],
-        [85, 25],
-        [162, 7],
-        [10, 18]
-      ],
-      [
-        [74, 18],
-        [5, 10],
-        [42, 22],
-        [178, 4],
-        [86, 12]
-      ],
-      [
-        [100, 22],
-        [47, 18],
-        [162, 12],
-        [5, 4]
-      ],
-      [
-        [103, 12],
-        [87, 8],
-        [178, 1],
-        [2, 22]
-      ]
-    ];
-
-  }
-
-  self.setSequences = function(type) {
-
-    if (type != "velvet" && 
-        type != "nature" && 
-        type != "ballpit") {
-        console.log("\nWrong sequence type!".bgRed.white.bold);
-        return false;
-    }
-
-    console.log(("\nSetting sequence type to: " + type).italic.grey);
-
-    switch(type) {
-
-      case "velvet":
-        self.selectedSequences = self.velvetSequences;
-      break;
-
-      case "nature":
-        self.selectedSequences = self.natureSequences;
-      break;
-
-      case "ballpit":
-        self.selectedSequences = self.ballpitSequences;
-      break;
-
-    }
-
-    return true;
 
   }
 
@@ -297,18 +222,13 @@ var Robot = function() {
       return false;
     }
 
-    if (self.selectedSequences.length == 0) {
-      console.log("\nNo sequence-type selected - defaulting to velvet!".bgRed.white.bold);
-      self.setSequences('velvet');
-    }
-
     console.log("\nRobot has been " + "launched!".blue.bold);
 
     self.running = true;
     self.enableStop = false;
 
     for (var i = 0; i < self.motors.length; i++) {
-      loopSequence(self.motors[i], self.selectedSequences[i], "motor"+i);
+      loopSequence(self.motors[i], self.moveSequences[i], "motor"+i);
     }
 
     io.emit('status-update', "start");
