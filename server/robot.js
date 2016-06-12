@@ -5,19 +5,19 @@ require('pigpio').configureClock(1, 0);
 var Gpio = require('pigpio').Gpio;
 var easings = require('./easings.js');
 
-// var path = require('path');
-// var express = require('express');
-// var app = express();
-// var http = require('http').Server(app);
-// var io = require('socket.io')(http);
+var path = require('path');
+var express = require('express');
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
-// app.get('/', function(req, res) {
-//   res.sendFile(path.resolve('../index.html'));
-// });
+app.get('/', function(req, res) {
+  res.sendFile(path.resolve('../index.html'));
+});
 
-// app.use(express.static(path.resolve('.././')));
+app.use(express.static(path.resolve('.././')));
 
-// http.listen(80);
+http.listen(80);
 
 var Robot = function() {
 
