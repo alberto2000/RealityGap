@@ -13,7 +13,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 			constraints: []
 		},
 		socket: {},
-		cameraRotation: false
+		cameraRotation: true
 	};
 
 	module.init = function() {
