@@ -13,7 +13,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 			constraints: []
 		},
 		socket: {},
-		cameraRotation: false
+		cameraRotation: true
 	};
 
 	module.init = function() {
@@ -32,7 +32,6 @@ define(['functions', 'socketio'], function(Functions, io) {
 
 		// module.makeBackdrop();
 		module.makeGround();
-		module.makeFabric();
 		module.makeMonster();
 
 		window.world = module;
@@ -137,7 +136,7 @@ define(['functions', 'socketio'], function(Functions, io) {
 		module.camera = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, -500, 1000);
 		
 		module.camera.position.x = 2;
-		module.camera.position.y = 0;
+		module.camera.position.y = 2;
 		module.camera.position.z = 2;
 
 		module.camera.zoom = 45;
@@ -175,15 +174,11 @@ define(['functions', 'socketio'], function(Functions, io) {
 	}
 
 	module.setControls = function() {
-
 		module.controls = new THREE.OrbitControls(module.camera, module.renderer.domElement);
-
 	}
 
 	module.makeBackdrop = function() {
-
 		$('#page').css('background-image', 'url(elements/moon1.jpg)');
-
 	}
 
 	module.makeGround = function() {
@@ -195,14 +190,14 @@ define(['functions', 'socketio'], function(Functions, io) {
 			geometry.mergeVertices();
 
 			var material = Physijs.createMaterial(new THREE.MeshNormalMaterial({
-				
+				// no options
 			}), 1, 0.6);
 
 			var floor = new Physijs.BoxMesh(geometry, material, 0);
 			var normals = new THREE.FaceNormalsHelper(floor, 2, 0x00ff00, 1);
 
-			floor.geometry.dynamic = true;
-			floor.receiveShadow = true;
+			floor.geometry.dynamic = false;
+			floor.receiveShadow = false;
 
 			floor.position.y = -2;
 
@@ -214,34 +209,6 @@ define(['functions', 'socketio'], function(Functions, io) {
 			module.scene.add(normals);
 
 		});
-
-	}
-
-	module.makeFabric = function() {
-
-		var jsonLoader = new THREE.JSONLoader();
-
-		jsonLoader.load('elements/fabric.json', function(geometry) {
-
-			geometry.mergeVertices();
-
-			var material = Physijs.createMaterial(new THREE.MeshNormalMaterial({
-				
-			}), 1, 0.6);
-
-			var fabric = new Physijs.BoxMesh(geometry, material, 0);
-
-			fabric.geometry.dynamic = true;
-			fabric.receiveShadow = true;
-
-			fabric.position.y = -3.75;
-
-			module.fabric = fabric;
-
-			module.scene.add(fabric);
-
-		});
-
 
 	}
 
