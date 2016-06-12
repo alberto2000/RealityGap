@@ -5,18 +5,18 @@ if [[ $# -eq 0 ]] ; then
     exit 0
 fi
 
-ADDR="localhost/#world1"
+ADDR="http://localhost/#world1"
 
 while getopts ":123" opt; do
   case $opt in
     1)
-      ADDR="localhost/#world1"
+      ADDR="http://localhost/#world1"
       ;;
     2)
-      ADDR="localhost/#world2"
+      ADDR="http://localhost/#world2"
       ;;
     3)
-      ADDR="localhost/#world3"
+      ADDR="http://localhost/#world3"
       ;;
    \?)
       echo "Usage: cmd [-1] [-2] [-3]" >&2
@@ -30,4 +30,4 @@ echo "Launching $ADDR simulation!"
 export DISPLAY=:0
 
 unclutter -idle 0.1 -root
-chromium-browser --kiosk $ADDR
+chromium-browser --kiosk http://localhost/#world1
