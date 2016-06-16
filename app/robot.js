@@ -1,23 +1,12 @@
 #!/usr/bin/env node
 
 var colors = require('colors');
-var pigpio = require('pigpio').configureClock(1, 0);
+var pigpio = require('pigpio');
 var gpio = pigpio.Gpio;
 var easings = require('./easings.js');
 
-var path = require('path');
-var express = require('express');
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-
-app.get('/', function(req, res) {
-  res.sendFile(path.resolve('../index.html'));
-});
-
-app.use(express.static(path.resolve('.././')));
-
-http.listen(80);
+// configure pigpio
+pigpio.configureClock(1, 0);
 
 var Robot = function() {
 
