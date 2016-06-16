@@ -71,29 +71,29 @@ var Robot = function() {
     // soft & smooth, slow
     self.velvetSequences = [
       [
-        [178, 8],
-        [85, 12],
+        [178, 4],
+        [85, 8],
         [162, 5],
         [10, 11]
       ],
       [
-        [74, 12],
+        [74, 2],
         [5, 10],
-        [42, 13],
+        [42, 7],
         [178, 4],
-        [86, 2]
+        [86, 8]
       ],
       [
         [100, 12],
-        [47, 10],
+        [47, 6],
         [162, 13],
         [5, 4]
       ],
       [
-        [103, 12],
-        [87, 8],
-        [178, 1],
-        [2, 8]
+        [103, 9],
+        [87, 12],
+        [178, 2],
+        [2, 13]
       ]
     ];
 
@@ -199,8 +199,6 @@ var Robot = function() {
       self.motors[i].lastPosition = startPosition;
     }
 
-    // io.emit('status-update', "center");
-
     return "Ok!";
 
   }
@@ -212,8 +210,6 @@ var Robot = function() {
     for (var i = 0; i < self.motors.length; i++) {
       self.motors[i]['isEnabled'] = true;
     }
-
-    // io.emit('status-update', "enableAllMotors");
 
     return "Ok!";
 
@@ -227,8 +223,6 @@ var Robot = function() {
       self.motors[i]['isEnabled'] = false;
     }
 
-    // io.emit('status-update', "disableAllMotors");
-
     return "Ok!";
 
   }
@@ -239,8 +233,6 @@ var Robot = function() {
 
     self.motors[motorId].isEnabled = true;
 
-    // io.emit('status-update', "enableMotor " + motorId);
-
     return "Ok!";
 
   }
@@ -250,8 +242,6 @@ var Robot = function() {
     console.log("\nDisabling motor".italic.grey + motorId);
 
     self.motors[motorId].isEnabled = false;
-
-    // io.emit('status-update', "disableMotor" + motorId);
 
     return "Ok!";
 
@@ -272,8 +262,6 @@ var Robot = function() {
     for (var i = 0; i < self.motors.length; i++) {
       loopSequence(self.motors[i], self.sweepSequence, "motor" + i);
     }
-
-    // io.emit('status-update', "sweep");
 
     return "Ok!";
 
@@ -300,8 +288,6 @@ var Robot = function() {
       loopSequence(self.motors[i], self.selectedSequences[i], "motor"+i);
     }
 
-    // io.emit('status-update', "start");
-
     return "Ok!";
 
   }
@@ -317,8 +303,6 @@ var Robot = function() {
 
     self.running = false;
     self.enableStop = true;
-
-    // io.emit('status-update', "stop");
 
     return "Ok!";
 
@@ -367,8 +351,6 @@ var Robot = function() {
           'newPosition': newPosition,
           'newSpeed': newSpeed
         };
-
-        // io.emit('motor-update', emitJson);
 
       }
 
