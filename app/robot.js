@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 var colors = require('colors');
-require('pigpio').configureClock(1, 0);
-var Gpio = require('pigpio').Gpio;
+var pigpio = require('pigpio').configureClock(1, 0);
+var gpio = pigpio.Gpio;
 var easings = require('./easings.js');
 
 var path = require('path');
@@ -45,8 +45,8 @@ var Robot = function() {
 
       var newPin = motorPins[i];
 
-      var newMotor = new Gpio(newPin, {
-        mode: Gpio.OUTPUT
+      var newMotor = new gpio(newPin, {
+        mode: gpio.OUTPUT
       });
 
       newMotor['lastPosition'] = undefined;
