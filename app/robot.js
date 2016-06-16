@@ -100,28 +100,28 @@ var Robot = function() {
     // meandering, crawling, ...
     self.natureSequences = [
       [
-        [178, 11],
-        [12, 28],
-        [162, 7],
-        [20, 18]
+        [102, 7],
+        [78, 28],
+        [23, 3],
+        [162, 24]
       ],
       [
         [74, 12],
         [5, 10],
         [42, 29],
-        [178, 4],
-        [12, 12]
+        [122, 4],
+        [172, 12]
       ],
       [
-        [100, 18],
-        [47, 18],
-        [162, 12],
-        [5, 24]
+        [100, 12],
+        [76, 22],
+        [4, 2],
+        [162, 18]
       ],
       [
         [103, 22],
-        [18, 5],
-        [178, 1],
+        [122, 5],
+        [28, 12],
         [2, 25]
       ]
     ];
@@ -145,13 +145,13 @@ var Robot = function() {
         [100, 22],
         [47, 18],
         [162, 12],
-        [5, 4]
+        [5, 14]
       ],
       [
         [103, 12],
-        [87, 8],
-        [178, 1],
-        [2, 22]
+        [87, 32],
+        [178, 21],
+        [2, 6]
       ]
     ];
 
@@ -162,7 +162,7 @@ var Robot = function() {
     if (type != "velvet" && 
         type != "nature" && 
         type != "ballpit") {
-        console.log("\nWrong sequence type!".bgRed.white.bold);
+        console.log("\nWrong sequence type! Must be either: velvet, nature, ballpit".bgRed.white.bold);
         return false;
     }
 
