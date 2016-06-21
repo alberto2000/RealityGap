@@ -44,9 +44,9 @@ art.font('The Reality Gap', 'Doom', function(rendered) {
 
 	if (immediateStart) {
 		console.log("\nImmediate Start!");
-		if (velvet) Robot.selectedSequences = Robot.velvetSequences;
-		if (nature) Robot.selectedSequences = Robot.natureSequences;
-		if (ballpit) Robot.selectedSequences = Robot.ballpitSequences;
+		if (velvet) Robot.setSequences('velvet');
+		if (nature) Robot.setSequences('nature');
+		if (ballpit) Robot.setSequences('ballpit');
 		Robot.start();
 	}
 
