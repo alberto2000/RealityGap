@@ -9,11 +9,17 @@ var debug = false;
 var immediateStart = false;
 var center = false;
 var sweep = false;
+var velvet = false;
+var nature = false;
+var ballpit = false;
 
 if (argv.debug) debug = true;
 if (argv.start) immediateStart = true;
 if (argv.center) center = true;
 if (argv.sweep) sweep = true;
+if (argv.velvet) velvet = true;
+if (argv.nature) nature = true;
+if (argv.ballpit) ballpit = true;
 
 art.font('The Reality Gap', 'Doom', function(rendered) {
 
@@ -38,6 +44,9 @@ art.font('The Reality Gap', 'Doom', function(rendered) {
 
 	if (immediateStart) {
 		console.log("\nImmediate Start!");
+		if (velvet) Robot.selectedSequences = Robot.velvetSequences;
+		if (nature) Robot.selectedSequences = Robot.natureSequences;
+		if (ballpit) Robot.selectedSequences = Robot.ballpitSequences;
 		Robot.start();
 	}
 
