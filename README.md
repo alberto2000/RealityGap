@@ -1,6 +1,6 @@
-# RealityGap
-### A commentary and speculative documentation on robotic, artificial life forms
-### Royal College of Art London, Design Interactions, 2016
+#RealityGap
+###A commentary and speculative documentation on robotic, artificial life forms
+###Royal College of Art London, Design Interactions, 2016
 
 Project Feature on Creative Applications: [Link](www.creativeapplications.net/arduino-2/the-reality-gap-a-commentary-and-speculative-documentation-on-robotic-artificial-life-forms/)
 
