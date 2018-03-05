@@ -1,5 +1,5 @@
-#RealityGap
-####A commentary and speculative documentation on robotic, artificial life forms
+# RealityGap
+## A commentary and speculative documentation on robotic, artificial life forms
 
 A node.js CLI interface (running on a Raspberry Pi) to control three physical robots.
 
