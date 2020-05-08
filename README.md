@@ -8,8 +8,12 @@ Thanks to [PIGPIO](https://github.com/fivdi/pigpio), REPL, [YARGS](https://githu
 Project Feature on Creative Applications: [Link](www.creativeapplications.net/arduino-2/the-reality-gap-a-commentary-and-speculative-documentation-on-robotic-artificial-life-forms/)  
 Original Project Description: [Link](www.riccardolardi.com/realitygap)
 
-![The Reality Gap](http://riccardolardi.com/assets/images/realitygap/realitygap3.jpg "The Reality Gap")
+![The Reality Gap](https://github.com/riccardolardi/riccardolardi.github.io/blob/master/img/realitygap1.jpg "The Reality Gap")
 
-![The Reality Gap](http://riccardolardi.com/assets/images/realitygap/realitygap2.jpg "The Reality Gap")
+![The Reality Gap](https://github.com/riccardolardi/riccardolardi.github.io/blob/master/img/realitygap2.jpg "The Reality Gap")
 
-![The Reality Gap](http://riccardolardi.com/assets/images/realitygap/realitygap1.jpg "The Reality Gap")
+![The Reality Gap](https://github.com/riccardolardi/riccardolardi.github.io/blob/master/img/realitygap3.jpg "The Reality Gap")
+
+![The Reality Gap](https://github.com/riccardolardi/riccardolardi.github.io/blob/master/img/realitygap8.jpg "The Reality Gap")
+
+![The Reality Gap](https://github.com/riccardolardi/riccardolardi.github.io/blob/master/img/realitygap10.jpg "The Reality Gap")
